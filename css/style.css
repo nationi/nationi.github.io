@@ -19,7 +19,5 @@ a {
   height: 300px;
 }
 a[href^="mailto:"] {
-  font-size: 16px;
-  line-height: 32px;
   color: #f76d02;
 }
