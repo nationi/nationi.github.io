@@ -21,3 +21,6 @@ a {
 a[href^="mailto:"] {
   color: #f76d02;
 }
+       h1 {
+         color: red;
+       }
