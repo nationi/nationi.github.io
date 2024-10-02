@@ -114,6 +114,21 @@
       font-size: 0.8rem;
       color: #777;
     }
+
+    /* Медиа-запросы для мобильных устройств */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem; /* Уменьшаем размер заголовка */
+  }
+
+  p, a {
+    font-size: 1rem; /* Уменьшаем размер текста */
+  }
+
+  .social-links {
+    margin: 1rem 0; /* Уменьшаем отступы */
+  }
+}
   </style>
 </head>
 
@@ -137,7 +152,7 @@
   <footer>
     <p>&nbsp;&nbsp&copy; 2024 Nationi. No rights reserved.</p>
   </footer>
-
+  
   <script>
     if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
       location.replace(`https:${location.href.substring(location.protocol.length)}`);
