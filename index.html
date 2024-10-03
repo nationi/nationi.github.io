@@ -38,41 +38,40 @@
       background: linear-gradient(270deg, rgb(255, 0, 0), rgb(0, 255, 0), rgb(0, 0, 255), rgb(255, 0, 255), rgb(255, 255, 0));
       background-size: 400% 400%;
       animation: gradient 25s ease infinite;
-      color: black;
+      color: black; 
       padding: 0 1rem;
       transition: background-color 0.3s, color 0.3s;
-      overflow: hidden;
-      position: relative;
+      position: relative; 
     }
 
     body.dark-mode {
       background: #121212;
-      color: white;
+      color: white; 
     }
 
     @keyframes fadeOut {
-      0% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-      }
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
     }
 
     .emoji {
-      position: absolute;
-      font-size: 2rem; /* Размер эмодзи */
-      white-space: nowrap; /* Чтобы эмодзи не переносились на новую строку */
-      animation: fly 5s linear forwards, fadeOut 40s forwards; /* Добавлено fadeOut */
+        position: absolute;
+        font-size: 2rem; /* Размер эмодзи */
+        white-space: nowrap; /* Чтобы эмодзи не переносились на новую строку */
+        animation: fly 5s linear forwards, fadeOut 40s forwards; /* Добавлено fadeOut */
     }
 
     @keyframes fly {
-      0% {
-        left: -50px; /* Начальная позиция слева */
-      }
-      100% {
-        left: calc(100% - 50px); /* Конечная позиция справа */
-      }
+        0% {
+            left: -50px; /* Начальная позиция слева */
+        }
+        100% {
+            left: calc(100% - 50px); /* Конечная позиция справа */
+        }
     }
 
     a {
@@ -90,15 +89,15 @@
     }
 
     body.dark-mode a {
-      color: #bb86fc;
+      color: #bb86fc; 
     }
 
     .social-links p strong {
-      color: #555;
+      color: #555; 
     }
 
     body.dark-mode .social-links p strong {
-      color: #cccccc;
+      color: #cccccc; 
     }
 
     @keyframes gradient {
@@ -189,8 +188,7 @@
         font-size: 2.5rem;
       }
 
-      p,
-      a {
+      p, a {
         font-size: 1rem;
       }
 
@@ -206,7 +204,7 @@
 </head>
 
 <body>
-  <div id="emoji-container"></div>
+  <div id="emoji-container"></div> 
   <main>
     <img class="nicole" src="/img/nicole.gif" alt="Люблю ничкуу">
     <h1>Nationi</h1>
@@ -228,7 +226,7 @@
   <footer>
     <p>&nbsp;&nbsp&copy; 2024 Nationi. No rights reserved.</p>
   </footer>
-
+  
   <script>
     function toggleTheme() {
       document.body.classList.toggle('dark-mode');
@@ -238,7 +236,7 @@
       const emojiContainer = document.getElementById('emoji-container');
       const emoji = document.createElement('div');
       emoji.classList.add('emoji');
-      emoji.innerText = '😳';
+      emoji.innerText = '😳'; 
       emoji.style.top = Math.random() * window.innerHeight + 'px';
       emoji.style.animationDuration = Math.random() * 5 + 5 + 's'; // Длительность анимации от 5 до 10 секунд
       emojiContainer.appendChild(emoji);
