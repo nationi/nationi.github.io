@@ -38,14 +38,14 @@
       background: linear-gradient(270deg, rgb(255, 0, 0), rgb(0, 255, 0), rgb(0, 0, 255), rgb(255, 0, 255), rgb(255, 255, 0));
       background-size: 400% 400%;
       animation: gradient 25s ease infinite;
-      color: #333;
+      color: black; /* По умолчанию чёрный цвет текста */
       padding: 0 1rem;
       transition: background-color 0.3s, color 0.3s;
     }
 
     body.dark-mode {
       background: #121212;
-      color: #ffffff;
+      color: white; /* В тёмном режиме текст становится белым */
     }
 
     @keyframes gradient {
@@ -193,7 +193,7 @@
     }
 
     if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
-      location.replace(https:${location.href.substring(location.protocol.length)});
+      location.replace(`https:${location.href.substring(location.protocol.length)}`);
     }
   </script>
 </body>
