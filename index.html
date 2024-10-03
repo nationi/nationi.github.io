@@ -51,17 +51,17 @@
 
     .emoji {
         position: absolute;
-        font-size: 3rem; /* Размер эмодзи */
-        white-space: nowrap; /* Чтобы эмодзи не переносились на новую строку */
-        animation: fly 5s linear forwards; /* Убрано fadeOut */
+        font-size: 3rem;
+        white-space: nowrap; 
+        animation: fly 5s linear forwards; 
     }
 
     @keyframes fly {
         0% {
-            left: -50px; /* Начальная позиция слева */
+            left: -50px; 
         }
         100% {
-            left: calc(100% - 50px); /* Конечная позиция справа */
+            left: calc(100% - 50px); 
         }
     }
 
@@ -215,7 +215,7 @@
   </main>
 
   <footer>
-    <p>&nbsp;&nbsp&copy; 2024 Nationi. No rights reserved.</p>
+    <p>&nbsp;&nbsp;&copy; 2024 AxoTeam. No rights reserved.</p>
   </footer>
   
   <script>
@@ -229,10 +229,9 @@
       emoji.classList.add('emoji');
       emoji.innerText = '😳'; 
       emoji.style.top = Math.random() * window.innerHeight + 'px';
-      emoji.style.animationDuration = Math.random() * 5 + 5 + 's'; // Длительность анимации от 5 до 10 секунд
+      emoji.style.animationDuration = Math.random() * 5 + 5 + 's'; 
       emojiContainer.appendChild(emoji);
       
-      // Удаляем эмодзи сразу после его выхода за пределы экрана
       emoji.addEventListener('animationend', () => {
         emojiContainer.removeChild(emoji);
       });
