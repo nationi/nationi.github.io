@@ -48,6 +48,24 @@
       color: white; /* Цвет текста при тёмной теме становится белым */
     }
 
+    a {
+      color: #007bff; /* Синий цвет ссылок по умолчанию */
+      text-decoration: none;
+      display: inline-block;
+      width: calc(100% - 150px);
+      max-width: 300px;
+      transition: color 0.3s;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      color: #0056b3;
+    }
+
+    body.dark-mode a {
+      color: #bb86fc; /* Цвет ссылок в тёмной теме (фиолетовый) */
+    }
+
     @keyframes gradient {
       0% {
         background-position: 0% 50%;
@@ -92,20 +110,6 @@
       font-size: 1.2rem;
       line-height: 1.6;
       text-align: left;
-    }
-
-    a {
-      color: #007bff;
-      text-decoration: none;
-      display: inline-block;
-      width: calc(100% - 150px);
-      max-width: 300px;
-      transition: color 0.3s;
-    }
-
-    a:hover {
-      text-decoration: underline;
-      color: #0056b3;
     }
 
     .social-links {
