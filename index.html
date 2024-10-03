@@ -49,20 +49,11 @@
       color: white; 
     }
 
-    @keyframes fadeOut {
-        0% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-        }
-    }
-
     .emoji {
         position: absolute;
         font-size: 2rem; /* Размер эмодзи */
         white-space: nowrap; /* Чтобы эмодзи не переносились на новую строку */
-        animation: fly 5s linear forwards, fadeOut 40s forwards; /* Добавлено fadeOut */
+        animation: fly 5s linear forwards; /* Убрано fadeOut */
     }
 
     @keyframes fly {
@@ -240,6 +231,8 @@
       emoji.style.top = Math.random() * window.innerHeight + 'px';
       emoji.style.animationDuration = Math.random() * 5 + 5 + 's'; // Длительность анимации от 5 до 10 секунд
       emojiContainer.appendChild(emoji);
+      
+      // Удаляем эмодзи сразу после его выхода за пределы экрана
       emoji.addEventListener('animationend', () => {
         emojiContainer.removeChild(emoji);
       });
