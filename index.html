@@ -50,21 +50,29 @@
       color: white; 
     }
 
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    
     .emoji {
-      position: absolute;
-      font-size: 2rem;
-      white-space: nowrap; 
-      animation: fly 10s linear forwards; 
+        position: absolute;
+        font-size: 2rem; /* Размер эмодзи */
+        white-space: nowrap; /* Чтобы эмодзи не переносились на новую строку */
+        animation: fly 5s linear forwards, fadeOut 40s forwards; /* Добавлено fadeOut */
     }
 
-    @keyframes fly {
-      0% {
-        transform: translateX(-100%); 
-      }
-      100% {
-        transform: translateX(100%); 
-      }
-    }
+        @keyframes fly {
+            0% {
+                left: -50px; /* Начальная позиция слева */
+            }
+            100% {
+                left: 100%; /* Конечная позиция справа */
+            }
+        }
 
     a {
       color: #007bff;
