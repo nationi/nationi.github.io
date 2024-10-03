@@ -48,26 +48,16 @@
       color: #ffffff;
     }
 
-    a {
-      color: #007bff;
-      text-decoration: none;
-      display: inline-block;
-      width: calc(100% - 150px);
-      max-width: 300px;
-      transition: color 0.3s;
-    }
-
-    body.dark-mode a {
-      color: #90caf9;
-    }
-
-    a:hover {
-      text-decoration: underline;
-      color: #0056b3;
-    }
-
-    body.dark-mode a:hover {
-      color: #82b1ff;
+    @keyframes gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
     }
 
     main {
@@ -84,26 +74,6 @@
       background-color: rgba(0, 0, 0, 0.85);
     }
 
-    h1 {
-      color: #FECD19;
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-    }
-
-    body.dark-mode h1 {
-      color: #ffc107;
-    }
-
-    p {
-      font-size: 1.2rem;
-      line-height: 1.6;
-      text-align: left;
-    }
-
-    body.dark-mode p {
-      color: #b0bec5;
-    }
-
     .banner {
       width: 100%;
       max-width: 600px;
@@ -112,14 +82,49 @@
       margin: 1rem auto;
     }
 
+    h1 {
+      color: #FECD19;
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      text-align: left;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+      display: inline-block;
+      width: calc(100% - 150px);
+      max-width: 300px;
+      transition: color 0.3s;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      color: #0056b3;
+    }
+
+    .social-links {
+      margin: 2rem 0;
+      text-align: left;
+      width: 100%;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .social-links p {
+      margin: 0.5rem 0;
+    }
+
     footer {
       margin-top: 2rem;
       font-size: 0.8rem;
       color: #777;
-    }
-
-    body.dark-mode footer {
-      color: #b0bec5;
     }
 
     .theme-toggle {
@@ -188,7 +193,7 @@
     }
 
     if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
-      location.replace(`https:${location.href.substring(location.protocol.length)}`);
+      location.replace(https:${location.href.substring(location.protocol.length)});
     }
   </script>
 </body>
