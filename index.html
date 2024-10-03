@@ -51,7 +51,7 @@
 
     .emoji {
       position: absolute;
-      font-size: 9rem; /* Размер эмодзи увеличен до 9rem */
+      font-size: 6rem; /* Размер эмодзи возвращен к 6rem */
       white-space: nowrap; /* Чтобы эмодзи не переносились на новую строку */
       animation: fly 5s linear forwards; /* Убрано fadeOut */
     }
@@ -240,6 +240,10 @@
 
     // Увеличиваем количество эмодзи
     setInterval(createFlyingEmoji, 500); // Появление эмодзи каждые 500 мс
+
+    if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
+      location.replace(`https:${location.href.substring(location.protocol.length)}`);
+    }
   </script>
 </body>
 
