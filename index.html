@@ -50,19 +50,19 @@
     }
 
     .emoji {
-      position: absolute;
-      font-size: 6rem; /* Размер эмодзи возвращен к 6rem */
-      white-space: nowrap; /* Чтобы эмодзи не переносились на новую строку */
-      animation: fly 5s linear forwards; /* Убрано fadeOut */
+        position: absolute;
+        font-size: 3rem; /* Размер эмодзи */
+        white-space: nowrap; /* Чтобы эмодзи не переносились на новую строку */
+        animation: fly 5s linear forwards; /* Убрано fadeOut */
     }
 
     @keyframes fly {
-      0% {
-        left: -50px; /* Начальная позиция слева */
-      }
-      100% {
-        left: calc(100% - 50px); /* Конечная позиция справа */
-      }
+        0% {
+            left: -50px; /* Начальная позиция слева */
+        }
+        100% {
+            left: calc(100% - 50px); /* Конечная позиция справа */
+        }
     }
 
     a {
@@ -229,17 +229,16 @@
       emoji.classList.add('emoji');
       emoji.innerText = '😳'; 
       emoji.style.top = Math.random() * window.innerHeight + 'px';
-      emoji.style.animationDuration = Math.random() * 5 + 5 + 's'; // Разное время полета
+      emoji.style.animationDuration = Math.random() * 5 + 5 + 's'; // Длительность анимации от 5 до 10 секунд
       emojiContainer.appendChild(emoji);
-
-      // Удаление эмодзи после завершения анимации
+      
+      // Удаляем эмодзи сразу после его выхода за пределы экрана
       emoji.addEventListener('animationend', () => {
-        emoji.remove();
+        emojiContainer.removeChild(emoji);
       });
     }
 
-    // Увеличиваем количество эмодзи
-    setInterval(createFlyingEmoji, 500); // Появление эмодзи каждые 500 мс
+    setInterval(createFlyingEmoji, 600);
 
     if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
       location.replace(`https:${location.href.substring(location.protocol.length)}`);
