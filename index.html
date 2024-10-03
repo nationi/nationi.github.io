@@ -38,18 +38,36 @@
       background: linear-gradient(270deg, rgb(255, 0, 0), rgb(0, 255, 0), rgb(0, 0, 255), rgb(255, 0, 255), rgb(255, 255, 0));
       background-size: 400% 400%;
       animation: gradient 25s ease infinite;
-      color: black; /* Цвет текста чёрный по умолчанию */
+      color: black; 
       padding: 0 1rem;
       transition: background-color 0.3s, color 0.3s;
+      overflow: hidden; 
+      position: relative; 
     }
 
     body.dark-mode {
       background: #121212;
-      color: white; /* Цвет текста белый в тёмной теме */
+      color: white; 
+    }
+
+    .emoji {
+      position: absolute;
+      font-size: 2rem;
+      white-space: nowrap; 
+      animation: fly 10s linear forwards; 
+    }
+
+    @keyframes fly {
+      0% {
+        transform: translateX(-100%); 
+      }
+      100% {
+        transform: translateX(100%); 
+      }
     }
 
     a {
-      color: #007bff; /* Синий цвет ссылок по умолчанию */
+      color: #007bff;
       text-decoration: none;
       display: inline-block;
       width: calc(100% - 150px);
@@ -63,16 +81,15 @@
     }
 
     body.dark-mode a {
-      color: #bb86fc; /* Фиолетовый цвет ссылок в тёмной теме */
+      color: #bb86fc; 
     }
 
-    /* Цвет текста с описанием ссылок (например, Telegram: и т.д.) */
     .social-links p strong {
-      color: #555; /* Тёмно-серый цвет в светлой теме */
+      color: #555; 
     }
 
     body.dark-mode .social-links p strong {
-      color: #cccccc; /* Светло-серый цвет в тёмной теме */
+      color: #cccccc; 
     }
 
     @keyframes gradient {
@@ -93,8 +110,10 @@
       background-color: rgba(255, 255, 255, 0.85);
       border-radius: 10px;
       max-width: 800px;
-      margin: 3px auto; 
+      margin: 3px auto;
       transition: background-color 0.3s;
+      position: relative;
+      z-index: 1;
     }
 
     body.dark-mode main {
@@ -156,7 +175,6 @@
       background-color: #555;
     }
 
-    /* Медиа-запросы для мобильных устройств */
     @media (max-width: 768px) {
       h1 {
         font-size: 2.5rem;
@@ -178,6 +196,7 @@
 </head>
 
 <body>
+  <div id="emoji-container"></div> 
   <main>
     <img class="nicole" src="/img/nicole.gif" alt="Люблю ничкуу">
     <h1>Nationi</h1>
@@ -204,6 +223,21 @@
     function toggleTheme() {
       document.body.classList.toggle('dark-mode');
     }
+
+    function createFlyingEmoji() {
+      const emojiContainer = document.getElementById('emoji-container');
+      const emoji = document.createElement('div');
+      emoji.classList.add('emoji');
+      emoji.innerText = '😳'; 
+      emoji.style.top = Math.random() * window.innerHeight + 'px';
+      emoji.style.animationDuration = Math.random() * 5 + 5 + 's'; // Длительность анимации от 5 до 10 секунд
+      emojiContainer.appendChild(emoji);
+      emoji.addEventListener('animationend', () => {
+        emojiContainer.removeChild(emoji);
+      });
+    }
+
+    setInterval(createFlyingEmoji, 1000);
 
     if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
       location.replace(`https:${location.href.substring(location.protocol.length)}`);
