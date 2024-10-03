@@ -44,20 +44,8 @@
     }
 
     body.dark-mode {
-      background: #121212;
+      background-color: #121212;
       color: #ffffff;
-    }
-
-    @keyframes gradient {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
     }
 
     main {
@@ -67,7 +55,7 @@
       border-radius: 10px;
       max-width: 800px;
       margin: 3px auto; 
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, color 0.3s;
     }
 
     body.dark-mode main {
@@ -92,6 +80,8 @@
       font-size: 1.2rem;
       line-height: 1.6;
       text-align: left;
+      color: inherit;
+      transition: color 0.3s;
     }
 
     a {
@@ -106,6 +96,10 @@
     a:hover {
       text-decoration: underline;
       color: #0056b3;
+    }
+
+    body.dark-mode a {
+      color: #66ccff;
     }
 
     .social-links {
@@ -127,6 +121,10 @@
       color: #777;
     }
 
+    body.dark-mode footer {
+      color: #bbb;
+    }
+
     .theme-toggle {
       display: inline-block;
       padding: 0.5rem 1rem;
@@ -136,11 +134,16 @@
       border-radius: 5px;
       cursor: pointer;
       margin-top: 1rem;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, color 0.3s;
     }
 
     .theme-toggle:hover {
       background-color: #555;
+    }
+
+    body.dark-mode .theme-toggle {
+      background-color: #fff;
+      color: #333;
     }
 
     /* Медиа-запросы для мобильных устройств */
