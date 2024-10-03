@@ -232,3 +232,27 @@
   <script>
     function toggleTheme() {
       document.body.classList.toggle('dark-mode');
+    }
+
+    function createFlyingEmoji() {
+      const emojiContainer = document.getElementById('emoji-container');
+      const emoji = document.createElement('div');
+      emoji.classList.add('emoji');
+      emoji.innerText = '😳';
+      emoji.style.top = Math.random() * window.innerHeight + 'px';
+      emoji.style.animationDuration = Math.random() * 5 + 5 + 's'; // Длительность анимации от 5 до 10 секунд
+      emojiContainer.appendChild(emoji);
+      emoji.addEventListener('animationend', () => {
+        emojiContainer.removeChild(emoji);
+      });
+    }
+
+    setInterval(createFlyingEmoji, 1000);
+
+    if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
+      location.replace(`https:${location.href.substring(location.protocol.length)}`);
+    }
+  </script>
+</body>
+
+</html>
