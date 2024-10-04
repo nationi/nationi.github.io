@@ -38,31 +38,31 @@
       background: linear-gradient(270deg, rgb(255, 0, 0), rgb(0, 255, 0), rgb(0, 0, 255), rgb(255, 0, 255), rgb(255, 255, 0));
       background-size: 400% 400%;
       animation: gradient 25s ease infinite;
-      color: black; 
+      color: black;
       padding: 0 1rem;
       transition: background-color 0.3s, color 0.3s;
-      position: relative; 
+      position: relative;
     }
 
     body.dark-mode {
       background: #121212;
-      color: white; 
+      color: white;
     }
 
     .emoji {
-        position: absolute;
-        font-size: 3rem;
-        white-space: nowrap; 
-        animation: fly 5s linear forwards; 
+      position: absolute;
+      font-size: 3rem;
+      white-space: nowrap;
+      animation: fly 5s linear forwards;
     }
 
     @keyframes fly {
-        0% {
-            left: -50px; 
-        }
-        100% {
-            left: calc(100% - 50px); 
-        }
+      0% {
+        left: -50px;
+      }
+      100% {
+        left: calc(100% - 50px);
+      }
     }
 
     a {
@@ -80,15 +80,15 @@
     }
 
     body.dark-mode a {
-      color: #bb86fc; 
+      color: #bb86fc;
     }
 
     .social-links p strong {
-      color: #555; 
+      color: #555;
     }
 
     body.dark-mode .social-links p strong {
-      color: #cccccc; 
+      color: #cccccc;
     }
 
     @keyframes gradient {
@@ -194,8 +194,8 @@
   </style>
 </head>
 
-<body>
-  <div id="emoji-container"></div> 
+<body class="dark-mode">
+  <div id="emoji-container"></div>
   <main>
     <img class="nicole" src="/img/nicole.gif" alt="Люблю ничкуу">
     <h1>Nationi</h1>
@@ -209,7 +209,7 @@
       <p><strong>Email:</strong> <a href="mailto:n@tioni.pw" aria-label="Отправить Email">n@tioni.pw</a></p>
     </div>
 
-    <button class="theme-toggle" onclick="toggleTheme()">LOL THATS A DARK THEME??</button>
+    <button class="theme-toggle" onclick="toggleTheme()">Switch to Light Theme</button>
     <p></p>
     <img class="nicole" src="/img/nicole.gif" alt="Люблю ничкуу">
   </main>
@@ -217,10 +217,18 @@
   <footer>
     <p>&nbsp;&nbsp;&copy; 2024 AxoTeam. No rights reserved.</p>
   </footer>
-  
+
   <script>
     function toggleTheme() {
-      document.body.classList.toggle('dark-mode');
+      const body = document.body;
+      body.classList.toggle('dark-mode');
+      const button = document.querySelector('.theme-toggle');
+      
+      if (body.classList.contains('dark-mode')) {
+        button.innerText = 'Switch to Light Theme';
+      } else {
+        button.innerText = 'Switch to Dark Theme';
+      }
     }
 
     function createFlyingEmoji() {
@@ -229,7 +237,7 @@
       emoji.classList.add('emoji');
       emoji.innerText = '😳'; 
       emoji.style.top = Math.random() * window.innerHeight + 'px';
-      emoji.style.animationDuration = Math.random() * 5 + 5 + 's'; 
+      emoji.style.animationDuration = Math.random() * 5 + 5 + 's';
       emojiContainer.appendChild(emoji);
       
       emoji.addEventListener('animationend', () => {
@@ -239,10 +247,4 @@
 
     setInterval(createFlyingEmoji, 600);
 
-    if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
-      location.replace(`https:${location.href.substring(location.protocol.length)}`);
-    }
-  </script>
-</body>
-
-</html>
+    if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname))
