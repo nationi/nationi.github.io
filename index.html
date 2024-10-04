@@ -325,7 +325,7 @@
       emoji.innerText = '😳';
       
       const maxTopPosition = window.innerHeight - 80; 
-      emoji.style.top = Math.random() * maxTopPosition + 'px';
+      emoji.style.top = Math.random() * (window.innerHeight - 80) + 80 + 'px';
     
       emoji.style.animationDuration = (Math.random() * 5 + 5) + 's';
       emojiContainer.appendChild(emoji);
