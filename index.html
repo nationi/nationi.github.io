@@ -316,12 +316,14 @@
       emoji.style.top = Math.random() * window.innerHeight + 'px';
       emoji.style.animationDuration = (Math.random() * 5 + 5) + 's';
       emojiContainer.appendChild(emoji);
-
+    
       emoji.addEventListener('animationend', () => {
-        emojiContainer.removeChild(emoji);
+        setTimeout(() => {
+          emojiContainer.removeChild(emoji);
+        }, 1000);
       });
     }
-
+    
     setInterval(createFlyingEmoji, 600);
 
     if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
