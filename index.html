@@ -309,42 +309,34 @@
       }
     }
   
-        // Функция для обновления максимального значения top для появления эмоджи
     function updateMaxTopPosition() {
-      return Math.max(window.innerHeight, document.documentElement.clientHeight) - 80; 
-      // Оставляем небольшой запас, чтобы эмоджи не появлялись за пределами экрана
+      const maxTopPosition = Math.max(window.innerHeight, document.documentElement.clientHeight) - 50;
+      return maxTopPosition;
     }
-  
-    // Функция для создания летающего эмоджи
+    
     function createFlyingEmoji() {
       const emojiContainer = document.getElementById('emoji-container');
       const emoji = document.createElement('div');
       emoji.classList.add('emoji');
-      emoji.innerText = '😳'; // Можно поменять эмоджи по желанию
-  
-      // Устанавливаем случайное положение по оси Y, с учетом текущей высоты экрана
+    
+      // Рассчитываем новое положение эмоджи по оси Y
       const maxTopPosition = updateMaxTopPosition();
       emoji.style.top = Math.random() * maxTopPosition + 'px';
-  
-      // Устанавливаем случайную продолжительность анимации (для разнообразия)
-      emoji.style.animationDuration = (Math.random() * 5 + 5) + 's'; 
-  
+      
       // Добавляем эмоджи в контейнер
       emojiContainer.appendChild(emoji);
-  
-      // Удаляем эмоджи после завершения анимации
+    
       emoji.addEventListener('animationend', () => {
         emojiContainer.removeChild(emoji);
       });
     }
-  
-    // Слушаем изменение размера экрана (например, поворот телефона)
+    
+    // Вызываем при каждом изменении размеров экрана
     window.addEventListener('resize', updateMaxTopPosition);
+    
+    // Изначальная установка, для момента загрузки страницы
+    setInterval(createFlyingEmoji, 600);
   
-    // Создаем эмоджи каждые 600 миллисекунд
-    setInterval(createFlyingEmoji, 20);
-  
-    // Переадресация на https, если не используется защищенное соединение
     if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
       location.replace(`https:${location.href.substring(location.protocol.length)}`);
     }
