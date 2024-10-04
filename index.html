@@ -237,7 +237,7 @@
       emoji.classList.add('emoji');
       emoji.innerText = '😳'; 
       emoji.style.top = Math.random() * window.innerHeight + 'px';
-      emoji.style.animationDuration = Math.random() * 5 + 5 + 's';
+      emoji.style.animationDuration = (Math.random() * 5 + 5) + 's'; 
       emojiContainer.appendChild(emoji);
       
       emoji.addEventListener('animationend', () => {
@@ -245,7 +245,7 @@
       });
     }
 
-    setInterval(createFlyingEmoji, 600);
+    setInterval(createFlyingEmoji, 600); 
 
     if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
       location.replace(`https:${location.href.substring(location.protocol.length)}`);
