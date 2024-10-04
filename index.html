@@ -312,6 +312,7 @@
     function createFlyingEmoji() {
       const emojiContainer = document.getElementById('emoji-container');
       const emoji = document.createElement('div');
+      const maxTopPosition = window.innerHeight - 50;
       emoji.classList.add('emoji');
       emoji.innerText = '😳';
       emoji.style.top = Math.random() * window.innerHeight + 'px';
