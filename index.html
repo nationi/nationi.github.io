@@ -316,8 +316,7 @@
     
       emoji.innerText = '😳';
       
-      // Ограничиваем позицию сверху, чтобы не появлялись ниже экрана
-      const maxTopPosition = window.innerHeight - 80; // Отнимаем 50, чтобы эмоджи не были частично за экраном
+      const maxTopPosition = window.innerHeight - 80; 
       emoji.style.top = Math.random() * maxTopPosition + 'px';
     
       emoji.style.animationDuration = (Math.random() * 5 + 5) + 's';
