@@ -26,6 +26,10 @@
   <link rel="mask-icon" href="/img/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
+
+  <!-- Подключаем Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Raleway:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
   <style>
     * {
       margin: 0;
@@ -34,7 +38,7 @@
     }
 
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Roboto', sans-serif;
       background: linear-gradient(270deg, rgb(255, 0, 0), rgb(0, 255, 0), rgb(0, 0, 255), rgb(255, 0, 255), rgb(255, 255, 0));
       background-size: 400% 400%;
       animation: gradient 25s ease infinite;
@@ -72,6 +76,7 @@
       width: calc(100% - 150px);
       max-width: 300px;
       transition: color 0.3s;
+      font-family: 'Roboto', sans-serif;
     }
 
     a:hover {
@@ -131,12 +136,14 @@
       color: #FECD19;
       font-size: 3rem;
       margin-bottom: 0.5rem;
+      font-family: 'Pacifico', cursive;
     }
 
     p {
       font-size: 1.2rem;
       line-height: 1.6;
       text-align: left;
+      font-family: 'Roboto', sans-serif;
     }
 
     .social-links {
@@ -168,6 +175,7 @@
       cursor: pointer;
       margin-top: 1rem;
       transition: background-color 0.3s;
+      font-family: 'Raleway', sans-serif;
     }
 
     .theme-toggle:hover {
@@ -179,7 +187,8 @@
         font-size: 2.5rem;
       }
 
-      p, a {
+      p,
+      a {
         font-size: 1rem;
       }
 
@@ -223,7 +232,7 @@
       const body = document.body;
       body.classList.toggle('dark-mode');
       const button = document.querySelector('.theme-toggle');
-      
+
       if (body.classList.contains('dark-mode')) {
         button.innerText = 'LOL THATS A DARK THEME??';
       } else {
@@ -235,17 +244,17 @@
       const emojiContainer = document.getElementById('emoji-container');
       const emoji = document.createElement('div');
       emoji.classList.add('emoji');
-      emoji.innerText = '😳'; 
+      emoji.innerText = '😳';
       emoji.style.top = Math.random() * window.innerHeight + 'px';
-      emoji.style.animationDuration = (Math.random() * 5 + 5) + 's'; 
+      emoji.style.animationDuration = (Math.random() * 5 + 5) + 's';
       emojiContainer.appendChild(emoji);
-      
+
       emoji.addEventListener('animationend', () => {
         emojiContainer.removeChild(emoji);
       });
     }
 
-    setInterval(createFlyingEmoji, 600); 
+    setInterval(createFlyingEmoji, 600);
 
     if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
       location.replace(`https:${location.href.substring(location.protocol.length)}`);
