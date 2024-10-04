@@ -309,21 +309,18 @@
       }
     }
   
-    function updateMaxTopPosition() {
-      const maxTopPosition = Math.max(window.innerHeight, document.documentElement.clientHeight) - 80;
-      return maxTopPosition;
-    }
-    
     function createFlyingEmoji() {
       const emojiContainer = document.getElementById('emoji-container');
       const emoji = document.createElement('div');
       emoji.classList.add('emoji');
     
-      // Рассчитываем новое положение эмоджи по оси Y
-      const maxTopPosition = updateMaxTopPosition();
-      emoji.style.top = Math.random() * maxTopPosition + 'px';
+      emoji.innerText = '😳';
       
-      // Добавляем эмоджи в контейнер
+      // Ограничиваем позицию сверху, чтобы не появлялись ниже экрана
+      const maxTopPosition = window.innerHeight - 80; // Отнимаем 50, чтобы эмоджи не были частично за экраном
+      emoji.style.top = Math.random() * maxTopPosition + 'px';
+    
+      emoji.style.animationDuration = (Math.random() * 5 + 5) + 's';
       emojiContainer.appendChild(emoji);
     
       emoji.addEventListener('animationend', () => {
@@ -331,10 +328,6 @@
       });
     }
     
-    // Вызываем при каждом изменении размеров экрана
-    window.addEventListener('resize', updateMaxTopPosition);
-    
-    // Изначальная установка, для момента загрузки страницы
     setInterval(createFlyingEmoji, 600);
   
     if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
