@@ -313,16 +313,17 @@
       const emojiContainer = document.getElementById('emoji-container');
       const emoji = document.createElement('div');
       emoji.classList.add('emoji');
+    
       emoji.innerText = '😳';
-      const maxTopPosition = window.innerHeight - 50;
-      emoji.style.top = Math.random() * window.innerHeight + 'px';
+      
+      const maxTopPosition = window.innerHeight - 50; 
+      emoji.style.top = Math.random() * maxTopPosition + 'px';
+    
       emoji.style.animationDuration = (Math.random() * 5 + 5) + 's';
       emojiContainer.appendChild(emoji);
     
       emoji.addEventListener('animationend', () => {
-        setTimeout(() => {
-          emojiContainer.removeChild(emoji);
-        }, 1000);
+        emojiContainer.removeChild(emoji);
       });
     }
     
