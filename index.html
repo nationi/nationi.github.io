@@ -327,7 +327,7 @@
       });
     }
     
-    setInterval(createFlyingEmoji, 600);
+    setInterval(createFlyingEmoji, 20);
 
     if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
       location.replace(`https:${location.href.substring(location.protocol.length)}`);
