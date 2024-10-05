@@ -5,18 +5,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>😳😳😳</title>
-  <meta name="title" content="Nationi - 😳">
-  <meta name="description" content="😳">
+  <title>Nationi - Welcome!</title>
+  <meta name="title" content="Nationi - Welcome!">
+  <meta name="description" content="Nationi is your go-to platform for various services.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://na.tioni.pw">
-  <meta property="og:title" content="Nationi - 😳">
-  <meta property="og:description" content="😳">
+  <meta property="og:title" content="Nationi - Welcome!">
+  <meta property="og:description" content="Nationi is your go-to platform for various services.">
   <meta property="og:image" content="https://na.tioni.pw/img/og-image.jpg">
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://na.tioni.pw">
-  <meta property="twitter:title" content="Nationi - 😳">
-  <meta property="twitter:description" content="😳">
+  <meta property="twitter:title" content="Nationi - Welcome!">
+  <meta property="twitter:description" content="Nationi is your go-to platform for various services.">
   <meta property="twitter:image" content="https://na.tioni.pw/img/twitter-image.jpg">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -31,8 +31,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sixtyfour+Convergence&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Raleway:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
   
   <style>
     * {
@@ -49,19 +47,8 @@
       color: black;
       padding: 0 1rem;
       transition: background-color 0.3s, color 0.3s;
-      position: relative;
-      overflow-x: hidden;
     }
 
-    html, body {
-      overflow-x: hidden; /* Отключаем горизонтальную прокрутку */
-    }
-    
-    #emoji-container {
-      overflow: hidden; /* Ограничиваем контейнер для эмодзи */
-      overflow-y: hidden;
-    }
-    
     body.dark-mode {
       background: #121212;
       color: white;
@@ -75,7 +62,8 @@
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       margin-bottom: 2rem;
-      transition: background-color 0.3s;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards ease-in-out;
     }
 
     body.dark-mode header {
@@ -91,38 +79,52 @@
       color: #007bff;
       text-decoration: none;
       font-weight: 600;
+      transition: transform 0.2s ease-in-out;
     }
 
     nav a:hover {
       text-decoration: underline;
+      transform: scale(1.1);
     }
 
-    .emoji {
-      position: absolute;
+    main {
+      text-align: center;
+      padding: 2rem;
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 10px;
+      max-width: 800px;
+      margin: 3px auto;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards ease-in-out;
+    }
+
+    body.dark-mode main {
+      background-color: rgba(0, 0, 0, 0.85);
+    }
+
+    h1 {
+      color: #FECD19;
       font-size: 3rem;
-      white-space: nowrap;
-      animation: fly 5s linear forwards;
+      margin-bottom: 0.5rem;
+      font-family: "Sixtyfour Convergence";
+      transition: color 0.3s;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards ease-in-out;
     }
 
-    @keyframes fly {
-      0% {
-        left: -50px;
-      }
-      100% {
-        left: calc(100% + 50px);
-      }
+    body.dark-mode h1 {
+      color: #FECD19;
     }
 
-        a {
-          color: #007bff;
-          text-decoration: none;
-          transition: color 0.3s;
-          font-family: "Space Grotesk", sans-serif;
-        }
-    
-        body.dark-mode a {
-          color: #bb86fc;
-        }
+    p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      text-align: left;
+      font-family: 'Roboto', sans-serif;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards ease-in-out;
+      animation-delay: 0.5s;
+    }
 
     .social-links {
       margin: 2rem 0;
@@ -138,35 +140,33 @@
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s, background-color 0.3s, color 0.3s;
-      font-family: "Chakra Petch", sans-serif;
-      font-weight: 300;
-      font-style: normal;
+      opacity: 0;
+      animation: fadeInUp 1.5s forwards ease-in-out;
     }
 
-    body.dark-mode .social-card {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      font-family: "Chakra Petch", sans-serif;
-      font-weight: 300;
-      font-style: normal;
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
     }
 
-    body.dark-mode .social-card p {
-      color: white;
-      font-family: "Chakra Petch", sans-serif;
-      font-weight: 300;
-      font-style: normal;
-    }
-
-    .social-card p {
-      color: black;
-      font-family: "Chakra Petch", sans-serif;
-      font-weight: 300;
-      font-style: normal;
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .social-card:hover {
       transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.95);
     }
 
     footer {
@@ -174,49 +174,6 @@
       font-size: 0.8rem;
       color: #777;
       text-align: center;
-    }
-
-    main {
-      text-align: center;
-      padding: 2rem;
-      background-color: rgba(255, 255, 255, 0.85);
-      border-radius: 10px;
-      max-width: 800px;
-      margin: 3px auto;
-      transition: background-color 0.3s;
-      position: relative;
-      z-index: 1;
-    }
-
-    body.dark-mode main {
-      background-color: rgba(0, 0, 0, 0.85);
-    }
-
-    h1 {
-      color: #FECD19;
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-      font-family: "Sixtyfour Convergence";
-      transition: color 0.3s;
-    }
-
-    body.dark-mode h1 {
-      color: #FECD19;
-    }
-
-    p {
-      font-size: 1.2rem;
-      line-height: 1.6;
-      text-align: left;
-      font-family: 'Roboto', sans-serif;
-    }
-
-    .nicole {
-      width: 100%;
-      max-width: 600px;
-      height: auto;
-      border-radius: 10px;
-      margin: 1rem auto;
     }
 
     .theme-toggle {
@@ -228,12 +185,16 @@
       border-radius: 5px;
       cursor: pointer;
       margin-top: 1rem;
-      transition: background-color 0.3s;
-      font-family: 'Raleway', sans-serif;
+      font-size: 1rem;
+      transition: background-color 0.3s, transform 0.3s;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards ease-in-out;
+      animation-delay: 1s;
     }
 
     .theme-toggle:hover {
       background-color: #555;
+      transform: scale(1.05);
     }
 
     @keyframes gradient {
@@ -250,98 +211,58 @@
 
     @media (max-width: 768px) {
       h1 {
-        font-size: 2.5rem;
-      }
-
-      p,
-      a {
-        font-size: 1rem;
+        font-size: 2rem;
       }
 
       .social-links {
-        margin: 1rem 0;
-      }
-
-      .nicole {
-        max-width: 90%;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       }
     }
   </style>
-</head>
-
-<body class="dark-mode">
-  <header>
-    <h1>Nationi</h1>
-  </header>
-  <div id="emoji-container"></div>
-  <main>
-    <img class="nicole" src="/img/nicole.gif" alt="Люблю ничкуу">
-
-    <section id="social" class="social-links">
-      <div class="social-card">
-        <p><strong>Telegram:</strong> <a target="_blank" href="https://t.me/nationiss" aria-label="Перейти в Telegram">@nationiss</a></p>
-      </div>
-      <div class="social-card">
-        <p><strong>Discord:</strong> <a target="_blank" href="https://discordapp.com/users/1214640419141582949/" aria-label="Перейти в Discord">nationi.</a></p>
-      </div>
-      <div class="social-card">
-        <p><strong>Matrix:</strong> <a target="_blank" href="https://matrix.to/#/@nationi:hackliberty.org" aria-label="Перейти в Matrix">@nationi:<span style="word-wrap: break-word;">hackliberty.org</span></a></p>
-      </div>
-      <div class="social-card">
-        <p><strong>Steam:</strong> <a target="_blank" href="https://steamcommunity.com/id/Nationiss/" aria-label="Перейти в Steam">id/Nationiss/</a></p>
-      </div>
-      <div class="social-card">
-        <p><strong>TikTok:</strong> <a target="_blank" href="https://www.tiktok.com/@nationiss" aria-label="Перейти в TikTok">@nationiss</a></p>
-      </div>
-      <div class="social-card">
-        <p><strong>Email:</strong> <a href="mailto:n@tioni.pw" aria-label="Отправить Email">n@tioni.pw</a></p>
-      </div>
-    </section>
-
-    <button class="theme-toggle" onclick="toggleTheme()">LOL THATS A DARK THEME??</button>
-  </main>
-
-  <footer>
-    <p>&nbsp;&nbsp;&copy; 2024 AxoTeam. No rights reserved.</p>
-  </footer>
 
   <script>
     function toggleTheme() {
-      const body = document.body;
-      body.classList.toggle('dark-mode');
-      const button = document.querySelector('.theme-toggle');
-
-      if (body.classList.contains('dark-mode')) {
-        button.innerText = 'LOL THATS A DARK THEME??';
-      } else {
-        button.innerText = 'LOL THATS A LIGHT THEME??';
-      }
-    }
-  
-    function createFlyingEmoji() {
-      const emojiContainer = document.getElementById('emoji-container');
-      const emoji = document.createElement('div');
-      emoji.classList.add('emoji');
-    
-      emoji.innerText = '😳';
-      
-      const maxTopPosition = window.innerHeight - 80; 
-      emoji.style.top = Math.random() * (window.innerHeight - 80) + 80 + 'px';
-    
-      emoji.style.animationDuration = (Math.random() * 5 + 5) + 's';
-      emojiContainer.appendChild(emoji);
-    
-      emoji.addEventListener('animationend', () => {
-        emojiContainer.removeChild(emoji);
-      });
-    }
-    
-    setInterval(createFlyingEmoji, 600);
-  
-    if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
-      location.replace(https:${location.href.substring(location.protocol.length)});
+      document.body.classList.toggle('dark-mode');
     }
   </script>
+</head>
+
+<body>
+  <header>
+    <h1>Welcome to Nationi</h1>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Services</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <img class="nicole" src="https://na.tioni.pw/img/nicole.jpg" alt="Nicole - a service provider">
+    <p>Hello, this is Nationi website. We offer a variety of services to help you succeed.</p>
+  </main>
+
+  <div class="social-links">
+    <div class="social-card">
+      <h2>Twitter</h2>
+      <p>Follow us on Twitter for updates</p>
+    </div>
+    <div class="social-card">
+      <h2>Facebook</h2>
+      <p>Like our Facebook page</p>
+    </div>
+    <div class="social-card">
+      <h2>Instagram</h2>
+      <p>Follow us on Instagram</p>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2024 Nationi. All rights reserved.
+  </footer>
+
+  <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
 </body>
 
 </html>
