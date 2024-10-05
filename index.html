@@ -263,11 +263,11 @@
       cursor: pointer;
       margin-top: 1rem;
       transition: background-color 0.3s;
-      font-family: 'Raleway', sans-serif;
+      font-family: "Space Grotesk", sans-serif;
     }
 
     .theme-toggle:hover {
-      background-color: #444;
+      background-color: #555;
     }
 
     body.dark-mode .theme-toggle {
@@ -279,7 +279,6 @@
       background-color: #9c68db;
     }
 
-    /* Neon Effect for h1 */
     h1 {
       text-shadow: 0 0 10px rgba(255, 255, 0, 0.7), 0 0 20px rgba(255, 255, 0, 0.7), 0 0 30px rgba(255, 255, 0, 0.7);
     }
@@ -304,7 +303,6 @@
         transform: translateY(100vh);
       }
     }
-
   </style>
 </head>
 
@@ -338,13 +336,11 @@
   <div id="emoji-container"></div>
 
   <script>
-    // Toggle Dark Mode
     const themeToggleBtn = document.querySelector('.theme-toggle');
     themeToggleBtn.addEventListener('click', () => {
       document.body.classList.toggle('dark-mode');
     });
 
-    // Floating Emojis Animation
     const emojiContainer = document.getElementById('emoji-container');
 
     function createFallingEmoji() {
@@ -361,7 +357,6 @@
 
     setInterval(createFallingEmoji, 1000);
 
-    // Load event for animation
     window.addEventListener('load', () => {
       document.body.classList.add('loaded');
     });
