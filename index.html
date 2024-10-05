@@ -32,7 +32,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sixtyfour+Convergence&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Raleway:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
   
   <style>
     * {
@@ -54,14 +54,14 @@
     }
 
     html, body {
-      overflow-x: hidden; /* Отключаем горизонтальную прокрутку */
+      overflow-x: hidden;
     }
     
     #emoji-container {
-      overflow: hidden; /* Ограничиваем контейнер для эмодзи */
+      overflow: hidden;
       overflow-y: hidden;
     }
-    
+
     body.dark-mode {
       background: #121212;
       color: white;
@@ -101,7 +101,7 @@
       position: absolute;
       font-size: 3rem;
       white-space: nowrap;
-      animation: fly 5s linear forwards;
+      animation: fly 5s linear forwards, float 4s ease-in-out infinite;
     }
 
     @keyframes fly {
@@ -113,16 +113,28 @@
       }
     }
 
-        a {
-          color: #007bff;
-          text-decoration: none;
-          transition: color 0.3s;
-          font-family: "Space Grotesk", sans-serif;
-        }
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+      transition: color 0.3s;
+      font-family: "Space Grotesk", sans-serif;
+    }
     
-        body.dark-mode a {
-          color: #bb86fc;
-        }
+    body.dark-mode a {
+      color: #bb86fc;
+    }
 
     .social-links {
       margin: 2rem 0;
@@ -141,28 +153,29 @@
       font-family: "Chakra Petch", sans-serif;
       font-weight: 300;
       font-style: normal;
+      animation: pulse 0.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulse {
+      from {
+        transform: scale(1);
+      }
+      to {
+        transform: scale(1.05);
+      }
     }
 
     body.dark-mode .social-card {
       background: rgba(255, 255, 255, 0.1);
       color: white;
-      font-family: "Chakra Petch", sans-serif;
-      font-weight: 300;
-      font-style: normal;
     }
 
     body.dark-mode .social-card p {
       color: white;
-      font-family: "Chakra Petch", sans-serif;
-      font-weight: 300;
-      font-style: normal;
     }
 
     .social-card p {
       color: black;
-      font-family: "Chakra Petch", sans-serif;
-      font-weight: 300;
-      font-style: normal;
     }
 
     .social-card:hover {
@@ -198,6 +211,19 @@
       margin-bottom: 0.5rem;
       font-family: "Sixtyfour Convergence";
       transition: color 0.3s;
+      animation: colorChange 5s infinite alternate;
+    }
+
+    @keyframes colorChange {
+      0% {
+        color: #FECD19;
+      }
+      50% {
+        color: #FF5733;
+      }
+      100% {
+        color: #33FFCE;
+      }
     }
 
     body.dark-mode h1 {
@@ -209,6 +235,14 @@
       line-height: 1.6;
       text-align: left;
       font-family: 'Roboto', sans-serif;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s, transform 0.6s;
+    }
+
+    body.loaded p {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .nicole {
@@ -233,114 +267,104 @@
     }
 
     .theme-toggle:hover {
-      background-color: #555;
+      background-color: #444;
     }
 
-    @keyframes gradient {
+    body.dark-mode .theme-toggle {
+      background-color: #bb86fc;
+      color: #121212;
+    }
+
+    body.dark-mode .theme-toggle:hover {
+      background-color: #9c68db;
+    }
+
+    /* Neon Effect for h1 */
+    h1 {
+      text-shadow: 0 0 10px rgba(255, 255, 0, 0.7), 0 0 20px rgba(255, 255, 0, 0.7), 0 0 30px rgba(255, 255, 0, 0.7);
+    }
+
+    h1:hover {
+      text-shadow: 0 0 20px rgba(255, 255, 0, 1), 0 0 30px rgba(255, 255, 0, 1), 0 0 40px rgba(255, 255, 0, 1);
+    }
+
+    .emoji-fall {
+      position: absolute;
+      top: -50px;
+      font-size: 2rem;
+      white-space: nowrap;
+      animation: fall 10s linear infinite;
+    }
+
+    @keyframes fall {
       0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
+        transform: translateY(-100px);
       }
       100% {
-        background-position: 0% 50%;
+        transform: translateY(100vh);
       }
     }
 
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 2.5rem;
-      }
-
-      p,
-      a {
-        font-size: 1rem;
-      }
-
-      .social-links {
-        margin: 1rem 0;
-      }
-
-      .nicole {
-        max-width: 90%;
-      }
-    }
   </style>
 </head>
 
-<body class="dark-mode">
+<body>
   <header>
-    <h1>Nationi</h1>
+    <h1>Nationi 😳</h1>
+    <button class="theme-toggle">Toggle Dark Mode</button>
   </header>
-  <div id="emoji-container"></div>
+
   <main>
-    <img class="nicole" src="/img/nicole.gif" alt="Люблю ничкуу">
-
-    <section id="social" class="social-links">
-      <div class="social-card">
-        <p><strong>Telegram:</strong> <a target="_blank" href="https://t.me/nationiss" aria-label="Перейти в Telegram">@nationiss</a></p>
-      </div>
-      <div class="social-card">
-        <p><strong>Discord:</strong> <a target="_blank" href="https://discordapp.com/users/1214640419141582949/" aria-label="Перейти в Discord">nationi.</a></p>
-      </div>
-      <div class="social-card">
-        <p><strong>Matrix:</strong> <a target="_blank" href="https://matrix.to/#/@nationi:hackliberty.org" aria-label="Перейти в Matrix">@nationi:<span style="word-wrap: break-word;">hackliberty.org</span></a></p>
-      </div>
-      <div class="social-card">
-        <p><strong>Steam:</strong> <a target="_blank" href="https://steamcommunity.com/id/Nationiss/" aria-label="Перейти в Steam">id/Nationiss/</a></p>
-      </div>
-      <div class="social-card">
-        <p><strong>TikTok:</strong> <a target="_blank" href="https://www.tiktok.com/@nationiss" aria-label="Перейти в TikTok">@nationiss</a></p>
-      </div>
-      <div class="social-card">
-        <p><strong>Email:</strong> <a href="mailto:n@tioni.pw" aria-label="Отправить Email">n@tioni.pw</a></p>
-      </div>
-    </section>
-
-    <button class="theme-toggle" onclick="toggleTheme()">LOL THATS A DARK THEME??</button>
+    <p>👋 привет! Я – Nationi, и это моя страничка с удивительными анимациями!</p>
+    <p>Здесь вы найдете яркие, весёлые и динамичные эффекты, которые делают сайт живым и привлекательным.</p>
   </main>
 
+  <section class="social-links">
+    <div class="social-card">
+      <p>Twitter 😳</p>
+    </div>
+    <div class="social-card">
+      <p>Instagram 😳</p>
+    </div>
+    <div class="social-card">
+      <p>GitHub 😳</p>
+    </div>
+  </section>
+
   <footer>
-    <p>&nbsp;&nbsp;&copy; 2024 AxoTeam. No rights reserved.</p>
+    <p>© 2024 Nationi 😳</p>
   </footer>
 
-  <script>
-    function toggleTheme() {
-      const body = document.body;
-      body.classList.toggle('dark-mode');
-      const button = document.querySelector('.theme-toggle');
+  <div id="emoji-container"></div>
 
-      if (body.classList.contains('dark-mode')) {
-        button.innerText = 'LOL THATS A DARK THEME??';
-      } else {
-        button.innerText = 'LOL THATS A LIGHT THEME??';
-      }
-    }
-  
-    function createFlyingEmoji() {
-      const emojiContainer = document.getElementById('emoji-container');
+  <script>
+    // Toggle Dark Mode
+    const themeToggleBtn = document.querySelector('.theme-toggle');
+    themeToggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+    });
+
+    // Floating Emojis Animation
+    const emojiContainer = document.getElementById('emoji-container');
+
+    function createFallingEmoji() {
       const emoji = document.createElement('div');
       emoji.classList.add('emoji');
-    
       emoji.innerText = '😳';
-      
-      const maxTopPosition = window.innerHeight - 80; 
-      emoji.style.top = Math.random() * (window.innerHeight - 80) + 80 + 'px';
-    
-      emoji.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      emoji.style.left = Math.random() * window.innerWidth + 'px';
+      emoji.style.animationDuration = Math.random() * 5 + 5 + 's';
       emojiContainer.appendChild(emoji);
-    
       emoji.addEventListener('animationend', () => {
         emojiContainer.removeChild(emoji);
       });
     }
-    
-    setInterval(createFlyingEmoji, 600);
-  
-    if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
-      location.replace(`https:${location.href.substring(location.protocol.length)}`);
-    }
+
+    setInterval(createFallingEmoji, 1000);
+
+    // Load event for animation
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+    });
   </script>
 </body>
 
