@@ -50,7 +50,7 @@
       padding: 0 1rem;
       transition: background-color 0.3s, color 0.3s;
       position: relative;
-      z-index: 1; /* Основной контент поверх эмодзи */
+      z-index: 1; 
     }
 
     html, body {
@@ -58,14 +58,15 @@
     }
 
     #emoji-container {
-      position: fixed; /* Фиксированное положение, чтобы эмодзи оставались на заднем плане */
+      position: fixed; 
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       overflow: hidden;
-      z-index: 0; /* Эмодзи за основным контентом */
-      pointer-events: none; /* Эмодзи не будут блокировать взаимодействие с контентом */
+      z-index: 0; 
+      pointer-events: none; 
+      user-select: none;
     }
 
     body.dark-mode {
@@ -337,12 +338,10 @@
 
       emoji.innerText = '😳';
 
-      // Устанавливаем случайную позицию сверху
       emoji.style.top = Math.random() * (window.innerHeight - 80) + 'px';
 
-      // Устанавливаем случайную длительность анимации
       emoji.style.animationDuration = (Math.random() * 5 + 5) + 's';
-      emoji.style.opacity = Math.random() * 0.5 + 0.5; // Разная прозрачность для разнообразия
+      emoji.style.opacity = Math.random() * 0.5 + 0.5; 
 
       emojiContainer.appendChild(emoji);
 
@@ -353,7 +352,6 @@
 
     setInterval(createFlyingEmoji, 600);
 
-    // Редирект на HTTPS, если необходимо
     if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
       location.replace('https:' + location.href.substring(location.protocol.length));
     }
