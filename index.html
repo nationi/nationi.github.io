@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
   <meta charset="UTF-8">
@@ -32,8 +32,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sixtyfour+Convergence&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Raleway:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
   <style>
     * {
       margin: 0;
@@ -50,16 +50,22 @@
       padding: 0 1rem;
       transition: background-color 0.3s, color 0.3s;
       position: relative;
+      z-index: 1; /* Основной контент поверх эмодзи */
     }
 
     html, body {
       overflow-x: hidden;
     }
-    
+
     #emoji-container {
-      position: relative;
-      height: 100vh;
+      position: fixed; /* Фиксированное положение, чтобы эмодзи оставались на заднем плане */
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       overflow: hidden;
+      z-index: 0; /* Эмодзи за основным контентом */
+      pointer-events: none; /* Эмодзи не будут блокировать взаимодействие с контентом */
     }
 
     body.dark-mode {
@@ -76,6 +82,8 @@
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       margin-bottom: 2rem;
       transition: background-color 0.3s;
+      position: relative;
+      z-index: 2;
     }
 
     body.dark-mode header {
@@ -141,6 +149,8 @@
       font-family: "Chakra Petch", sans-serif;
       font-weight: 300;
       font-style: normal;
+      position: relative;
+      z-index: 2;
     }
 
     body.dark-mode .social-card {
@@ -165,6 +175,8 @@
       font-size: 0.8rem;
       color: #777;
       text-align: center;
+      position: relative;
+      z-index: 2;
     }
 
     main {
@@ -176,7 +188,7 @@
       margin: 3px auto;
       transition: background-color 0.3s;
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
 
     body.dark-mode main {
@@ -221,6 +233,8 @@
       margin-top: 1rem;
       transition: background-color 0.3s;
       font-family: 'Raleway', sans-serif;
+      z-index: 2;
+      position: relative;
     }
 
     .theme-toggle:hover {
@@ -270,13 +284,22 @@
 
     <section id="social" class="social-links">
       <div class="social-card">
-        <p><strong>Telegram:</strong> <a target="_blank" href="https://t.me/nationich">https://t.me/nationich</a></p>
+        <p><strong>Telegram:</strong> <a target="_blank" href="https://t.me/nationiss" aria-label="Перейти в Telegram">@nationiss</a></p>
       </div>
       <div class="social-card">
-        <p><strong>GitHub:</strong> <a target="_blank" href="https://github.com/Nationi">https://github.com/Nationi</a></p>
+        <p><strong>Discord:</strong> <a target="_blank" href="https://discordapp.com/users/1214640419141582949/" aria-label="Перейти в Discord">nationi.</a></p>
       </div>
       <div class="social-card">
-        <p><strong>Twitter:</strong> <a target="_blank" href="https://twitter.com/nationi">https://twitter.com/nationi</a></p>
+        <p><strong>Matrix:</strong> <a target="_blank" href="https://matrix.to/#/@nationi:hackliberty.org" aria-label="Перейти в Matrix">@nationi:<span style="word-wrap: break-word;">hackliberty.org</span></a></p>
+      </div>
+      <div class="social-card">
+        <p><strong>Steam:</strong> <a target="_blank" href="https://steamcommunity.com/id/Nationiss/" aria-label="Перейти в Steam">id/Nationiss/</a></p>
+      </div>
+      <div class="social-card">
+        <p><strong>TikTok:</strong> <a target="_blank" href="https://www.tiktok.com/@nationiss" aria-label="Перейти в TikTok">@nationiss</a></p>
+      </div>
+      <div class="social-card">
+        <p><strong>Email:</strong> <a href="mailto:n@tioni.pw" aria-label="Отправить Email">n@tioni.pw</a></p>
       </div>
     </section>
 
@@ -299,27 +322,31 @@
         button.innerText = 'LOL THATS A LIGHT THEME??';
       }
     }
-  
+
     function createFlyingEmoji() {
       const emojiContainer = document.getElementById('emoji-container');
       const emoji = document.createElement('div');
       emoji.classList.add('emoji');
-    
+
       emoji.innerText = '😳';
-      
-      const maxTopPosition = window.innerHeight - 80; 
-      emoji.style.top = Math.random() * (window.innerHeight - 80) + 80 + 'px';
-    
+
+      // Устанавливаем случайную позицию сверху
+      emoji.style.top = Math.random() * (window.innerHeight - 80) + 'px';
+
+      // Устанавливаем случайную длительность анимации
       emoji.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      emoji.style.opacity = Math.random() * 0.5 + 0.5; // Разная прозрачность для разнообразия
+
       emojiContainer.appendChild(emoji);
-    
+
       emoji.addEventListener('animationend', () => {
         emojiContainer.removeChild(emoji);
       });
     }
-    
+
     setInterval(createFlyingEmoji, 600);
-  
+
+    // Редирект на HTTPS, если необходимо
     if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
       location.replace('https:' + location.href.substring(location.protocol.length));
     }
