@@ -85,9 +85,9 @@
       transition: background-color 0.3s;
       position: relative;
       z-index: 2;
-      opacity: 0; /* Начальное состояние */
-      animation: fadeInDown 1s ease-out forwards; /* Анимация */
-      animation-delay: 0s; /* Задержка */
+      opacity: 0; 
+      animation: fadeInDown 1s ease-out forwards; 
+      animation-delay: 0s; 
     }
 
     body.dark-mode header {
@@ -155,32 +155,32 @@
       font-style: normal;
       position: relative;
       z-index: 2;
-      opacity: 0; /* Начальное состояние */
-      animation: fadeIn 0.5s ease-out forwards; /* Анимация */
+      opacity: 0; 
+      animation: fadeIn 0.5s ease-out forwards; 
     }
 
     .social-card:nth-child(1) {
-      animation-delay: 1s; /* Задержка для первой карточки */
+      animation-delay: 1s; 
     }
 
     .social-card:nth-child(2) {
-      animation-delay: 1.2s; /* Задержка для второй карточки */
+      animation-delay: 1.2s; 
     }
 
     .social-card:nth-child(3) {
-      animation-delay: 1.4s; /* Задержка для третьей карточки */
+      animation-delay: 1.4s; 
     }
 
     .social-card:nth-child(4) {
-      animation-delay: 1.6s; /* Задержка для четвертой карточки */
+      animation-delay: 1.6s; 
     }
 
     .social-card:nth-child(5) {
-      animation-delay: 1.8s; /* Задержка для пятой карточки */
+      animation-delay: 1.8s; 
     }
 
     .social-card:nth-child(6) {
-      animation-delay: 2s; /* Задержка для шестой карточки */
+      animation-delay: 2s; 
     }
 
     body.dark-mode .social-card {
@@ -219,9 +219,9 @@
       transition: background-color 0.3s;
       position: relative;
       z-index: 2;
-      opacity: 0; /* Начальное состояние */
-      animation: fadeInUp 1s ease-out forwards; /* Анимация */
-      animation-delay: 0.5s; /* Задержка */
+      opacity: 0; 
+      animation: fadeInUp 1s ease-out forwards;
+      animation-delay: 0.5s; 
     }
 
     body.dark-mode main {
@@ -384,15 +384,31 @@
 
   <script>
     function toggleTheme() {
-      const body = document.body;
-      body.classList.toggle('dark-mode');
-      const button = document.querySelector('.theme-toggle');
+        const body = document.body;
+        body.classList.toggle('dark-mode');
+        const button = document.querySelector('.theme-toggle');
 
-      if (body.classList.contains('dark-mode')) {
-        button.innerText = 'LOL THATS A DARK THEME??';
-      } else {
-        button.innerText = 'LOL THATS A LIGHT THEME??';
-      }
+        if (body.classList.contains('dark-mode')) {
+            button.innerText = 'LOL THATS A DARK THEME??';
+            localStorage.setItem('theme', 'dark');
+        } else {
+            button.innerText = 'LOL THATS A LIGHT THEME??';
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    function applySavedTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const body = document.body;
+        const button = document.querySelector('.theme-toggle');
+
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            button.innerText = 'LOL THATS A DARK THEME??';
+        } else {
+            body.classList.remove('dark-mode');
+            button.innerText = 'LOL THATS A LIGHT THEME??';
+        }
     }
 
     function createFlyingEmoji() {
