@@ -385,13 +385,11 @@
   <script>
       let emojiInterval;
   
-      // Функция для переключения темы
       function toggleTheme() {
           const body = document.body;
           body.classList.toggle('dark-mode');
           const button = document.querySelector('.theme-toggle');
   
-          // Сохраняем выбранную тему в Local Storage
           if (body.classList.contains('dark-mode')) {
               button.innerText = 'LOL THATS A DARK THEME??';
               localStorage.setItem('theme', 'dark');
@@ -401,7 +399,6 @@
           }
       }
   
-      // Функция для применения сохраненной темы при загрузке страницы
       function applySavedTheme() {
           const savedTheme = localStorage.getItem('theme');
           const body = document.body;
@@ -416,7 +413,6 @@
           }
       }
   
-      // Функция для создания летающего эмодзи
       function createFlyingEmoji() {
           const emojiContainer = document.getElementById('emoji-container');
           const emoji = document.createElement('div');
@@ -435,28 +431,24 @@
           });
       }
   
-      // Запускаем создание эмодзи
       function startEmojiCreation() {
           emojiInterval = setInterval(createFlyingEmoji, 600);
       }
   
-      // Останавливаем создание эмодзи
       function stopEmojiCreation() {
           clearInterval(emojiInterval);
       }
   
-      // Обработка события видимости вкладки
       document.addEventListener('visibilitychange', () => {
           if (document.visibilityState === 'hidden') {
-              stopEmojiCreation(); // Останавливаем создание эмодзи
+              stopEmojiCreation(); 
           } else {
-              startEmojiCreation(); // Запускаем создание эмодзи
+              startEmojiCreation(); 
           }
       });
   
-      // Применяем сохраненную тему при загрузке страницы
       applySavedTheme();
-      startEmojiCreation(); // Запускаем создание эмодзи сразу после загрузки страницы
+      startEmojiCreation(); 
   
       if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
           location.replace('https:' + location.href.substring(location.protocol.length));
