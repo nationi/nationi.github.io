@@ -383,60 +383,84 @@
   </footer>
 
   <script>
-    function toggleTheme() {
-        const body = document.body;
-        body.classList.toggle('dark-mode');
-        const button = document.querySelector('.theme-toggle');
-
-        if (body.classList.contains('dark-mode')) {
-            button.innerText = 'LOL THATS A DARK THEME??';
-            localStorage.setItem('theme', 'dark');
-        } else {
-            button.innerText = 'LOL THATS A LIGHT THEME??';
-            localStorage.setItem('theme', 'light');
-        }
-    }
-
-    function applySavedTheme() {
-        const savedTheme = localStorage.getItem('theme');
-        const body = document.body;
-        const button = document.querySelector('.theme-toggle');
-
-        if (savedTheme === 'dark') {
-            body.classList.add('dark-mode');
-            button.innerText = 'LOL THATS A DARK THEME??';
-        } else {
-            body.classList.remove('dark-mode');
-            button.innerText = 'LOL THATS A LIGHT THEME??';
-        }
-    }
-
-    applySavedTheme();
-
-    function createFlyingEmoji() {
-      const emojiContainer = document.getElementById('emoji-container');
-      const emoji = document.createElement('div');
-      emoji.classList.add('emoji');
-
-      emoji.innerText = '😳';
-
-      emoji.style.top = Math.random() * (window.innerHeight - 80) + 'px';
-
-      emoji.style.animationDuration = (Math.random() * 5 + 5) + 's';
-      emoji.style.opacity = Math.random() * 0.5 + 0.5; 
-
-      emojiContainer.appendChild(emoji);
-
-      emoji.addEventListener('animationend', () => {
-        emojiContainer.removeChild(emoji);
+      let emojiInterval;
+  
+      // Функция для переключения темы
+      function toggleTheme() {
+          const body = document.body;
+          body.classList.toggle('dark-mode');
+          const button = document.querySelector('.theme-toggle');
+  
+          // Сохраняем выбранную тему в Local Storage
+          if (body.classList.contains('dark-mode')) {
+              button.innerText = 'LOL THATS A DARK THEME??';
+              localStorage.setItem('theme', 'dark');
+          } else {
+              button.innerText = 'LOL THATS A LIGHT THEME??';
+              localStorage.setItem('theme', 'light');
+          }
+      }
+  
+      // Функция для применения сохраненной темы при загрузке страницы
+      function applySavedTheme() {
+          const savedTheme = localStorage.getItem('theme');
+          const body = document.body;
+          const button = document.querySelector('.theme-toggle');
+  
+          if (savedTheme === 'dark') {
+              body.classList.add('dark-mode');
+              button.innerText = 'LOL THATS A DARK THEME??';
+          } else {
+              body.classList.remove('dark-mode');
+              button.innerText = 'LOL THATS A LIGHT THEME??';
+          }
+      }
+  
+      // Функция для создания летающего эмодзи
+      function createFlyingEmoji() {
+          const emojiContainer = document.getElementById('emoji-container');
+          const emoji = document.createElement('div');
+          emoji.classList.add('emoji');
+  
+          emoji.innerText = '😳';
+  
+          emoji.style.top = Math.random() * (window.innerHeight - 80) + 'px';
+          emoji.style.animationDuration = (Math.random() * 5 + 5) + 's';
+          emoji.style.opacity = Math.random() * 0.5 + 0.5; 
+  
+          emojiContainer.appendChild(emoji);
+  
+          emoji.addEventListener('animationend', () => {
+              emojiContainer.removeChild(emoji);
+          });
+      }
+  
+      // Запускаем создание эмодзи
+      function startEmojiCreation() {
+          emojiInterval = setInterval(createFlyingEmoji, 600);
+      }
+  
+      // Останавливаем создание эмодзи
+      function stopEmojiCreation() {
+          clearInterval(emojiInterval);
+      }
+  
+      // Обработка события видимости вкладки
+      document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'hidden') {
+              stopEmojiCreation(); // Останавливаем создание эмодзи
+          } else {
+              startEmojiCreation(); // Запускаем создание эмодзи
+          }
       });
-    }
-
-    setInterval(createFlyingEmoji, 600);
-
-    if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
-      location.replace('https:' + location.href.substring(location.protocol.length));
-    }
+  
+      // Применяем сохраненную тему при загрузке страницы
+      applySavedTheme();
+      startEmojiCreation(); // Запускаем создание эмодзи сразу после загрузки страницы
+  
+      if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
+          location.replace('https:' + location.href.substring(location.protocol.length));
+      }
   </script>
 </body>
 
