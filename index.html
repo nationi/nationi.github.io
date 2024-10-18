@@ -330,40 +330,42 @@
   </style>
 </head>
 
-<body class="dark-mode">
+<body>
   <header>
     <h1>Nationi</h1>
   </header>
+
   <div id="emoji-container"></div>
+
   <main>
     <img class="nicole" src="/img/nicole.gif" alt="Люблю ничкуу">
 
     <section id="social" class="social-links">
       <div class="social-card">
-        <p><strong>Telegram:</strong> <a target="_blank" href="https://t.me/nationiss" aria-label="Перейти в Telegram">@nationiss</a></p>
+        <p><strong>Telegram:</strong> <a href="https://t.me/nationiss" target="_blank" rel="noopener noreferrer">@nationiss</a></p>
       </div>
       <div class="social-card">
-        <p><strong>Discord:</strong> <a target="_blank" href="https://discordapp.com/users/1214640419141582949/" aria-label="Перейти в Discord">nationi.</a></p>
+        <p><strong>Discord:</strong> <a href="https://discordapp.com/users/1214640419141582949/" target="_blank" rel="noopener noreferrer">nationi.</a></p>
       </div>
       <div class="social-card">
-        <p><strong>Matrix:</strong> <a target="_blank" href="https://matrix.to/#/@nationi:hackliberty.org" aria-label="Перейти в Matrix">@nationi:<span style="word-wrap: break-word;">hackliberty.org</span></a></p>
+        <p><strong>Matrix:</strong> <a href="https://matrix.to/#/@nationi:hackliberty.org" target="_blank" rel="noopener noreferrer">@nationi:hackliberty.org</a></p>
       </div>
       <div class="social-card">
-        <p><strong>Steam:</strong> <a target="_blank" href="https://steamcommunity.com/id/Nationiss/" aria-label="Перейти в Steam">id/Nationiss/</a></p>
+        <p><strong>Steam:</strong> <a href="https://steamcommunity.com/id/Nationiss/" target="_blank" rel="noopener noreferrer">id/Nationiss</a></p>
       </div>
       <div class="social-card">
-        <p><strong>TikTok:</strong> <a target="_blank" href="https://www.tiktok.com/@nationiss" aria-label="Перейти в TikTok">@nationiss</a></p>
+        <p><strong>TikTok:</strong> <a href="https://www.tiktok.com/@nationiss" target="_blank" rel="noopener noreferrer">@nationiss</a></p>
       </div>
       <div class="social-card">
-        <p><strong>Email:</strong> <a href="mailto:n@tioni.pw" aria-label="Отправить Email">n@tioni.pw</a></p>
+        <p><strong>Email:</strong> <a href="mailto:n@tioni.pw" target="_blank" rel="noopener noreferrer">n@tioni.pw</a></p>
       </div>
     </section>
 
-    <button class="theme-toggle" onclick="toggleTheme()">LOL THATS A DARK THEME??</button>
+    <button class="theme-toggle" onclick="toggleTheme()">LOL THAT'S A DARK THEME??</button>
   </main>
 
   <footer>
-    <p><d>&nbsp;&nbsp;&copy; 2024 AxoTeam. No rights reserved.</d></p>
+    <p>&nbsp;&nbsp;&copy; 2024 AxoTeam. No rights reserved.</p>
   </footer>
 
   <script>
@@ -373,9 +375,9 @@
       const button = document.querySelector('.theme-toggle');
 
       if (body.classList.contains('dark-mode')) {
-        button.innerText = 'LOL THATS A DARK THEME??';
+        button.innerText = 'LOL THAT\'S A DARK THEME??';
       } else {
-        button.innerText = 'LOL THATS A LIGHT THEME??';
+        button.innerText = 'LOL THAT\'S A LIGHT THEME??';
       }
     }
 
@@ -383,26 +385,21 @@
       const emojiContainer = document.getElementById('emoji-container');
       const emoji = document.createElement('div');
       emoji.classList.add('emoji');
-      
+
       const emojis = ['😳'];
       emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-    
-      emoji.style.top = Math.random() * (window.innerHeight - 80) + 'px';
-      emoji.style.animationDuration = (Math.random() * 5 + 5) + 's';
-      emoji.style.opacity = Math.random() * 0.5 + 0.5;
-    
+
+      emoji.style.top = Math.random() * (window.innerHeight - 100) + 'px';
+      emoji.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+
       emojiContainer.appendChild(emoji);
-    
+
       emoji.addEventListener('animationend', () => {
-        emojiContainer.removeChild(emoji);
+        emoji.remove();
       });
     }
-    
-    setInterval(createFlyingEmoji, 600);
 
-    if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
-      location.replace('https:' + location.href.substring(location.protocol.length));
-    }
+    setInterval(createFlyingEmoji, 300);
   </script>
 </body>
 
