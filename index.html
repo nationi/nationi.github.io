@@ -382,84 +382,84 @@
     <p><d>&nbsp;&nbsp;&copy; 2024 AxoTeam. No rights reserved.</d></p>
   </footer>
 
-  <script>
+<script>
     let emojiInterval;
-  
+
     function toggleTheme() {
-            const body = document.body;
-            body.classList.toggle('dark-mode');
-            const button = document.querySelector('.theme-toggle');
-    
-            if (body.classList.contains('dark-mode')) {
-                button.innerText = 'LOL THATS A DARK THEME??';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                button.innerText = 'LOL THATS A LIGHT THEME??';
-                localStorage.setItem('theme', 'light');
-            }
+        const body = document.body;
+        body.classList.toggle('dark-mode');
+        const button = document.querySelector('.theme-toggle');
+
+        if (body.classList.contains('dark-mode')) {
+            button.innerText = 'LOL THATS A DARK THEME??';
+            localStorage.setItem('theme', 'dark');
+        } else {
+            button.innerText = 'LOL THATS A LIGHT THEME??';
+            localStorage.setItem('theme', 'light');
         }
-    
-        function applySavedTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            const body = document.body;
-            const button = document.querySelector('.theme-toggle');
-    
-            if (savedTheme === 'dark') {
-                body.classList.add('dark-mode');
-                button.innerText = 'LOL THATS A DARK THEME??';
-            } else {
-                body.classList.remove('dark-mode');
-                button.innerText = 'LOL THATS A LIGHT THEME??';
-            }
-    
-            if (!savedTheme) {
-                body.classList.add('dark-mode');
-                localStorage.setItem('theme', 'dark');
-                button.innerText = 'LOL THATS A DARK THEME??';
-            }
+    }
+
+    function applySavedTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const body = document.body;
+        const button = document.querySelector('.theme-toggle');
+
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            button.innerText = 'LOL THATS A DARK THEME??';
+        } else {
+            body.classList.remove('dark-mode');
+            button.innerText = 'LOL THATS A LIGHT THEME??';
         }
-    
-        function createFlyingEmoji() {
-            const emojiContainer = document.getElementById('emoji-container');
-            const emoji = document.createElement('div');
-            emoji.classList.add('emoji');
-    
-            emoji.innerText = '😳';
-    
-            emoji.style.top = Math.random() * (window.innerHeight - 80) + 'px';
-            emoji.style.animationDuration = (Math.random() * 5 + 5) + 's';
-            emoji.style.opacity = Math.random() * 0.5 + 0.5; 
-    
-            emojiContainer.appendChild(emoji);
-    
-            emoji.addEventListener('animationend', () => {
-                emojiContainer.removeChild(emoji);
-            });
+
+        if (!savedTheme) {
+            body.classList.add('dark-mode');
+            localStorage.setItem('theme', 'dark');
+            button.innerText = 'LOL THATS A DARK THEME??';
         }
-    
-        function startEmojiCreation() {
-            emojiInterval = setInterval(createFlyingEmoji, 600);
-        }
-    
-        function stopEmojiCreation() {
-            clearInterval(emojiInterval);
-        }
-    
-        document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'hidden') {
-                stopEmojiCreation();
-            } else {
-                startEmojiCreation();
-            }
+    }
+
+    function createFlyingEmoji() {
+        const emojiContainer = document.getElementById('emoji-container');
+        const emoji = document.createElement('div');
+        emoji.classList.add('emoji');
+
+        emoji.innerText = '😳';
+
+        emoji.style.top = Math.random() * (window.innerHeight - 80) + 'px';
+        emoji.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        emoji.style.opacity = Math.random() * 0.5 + 0.5; 
+
+        emojiContainer.appendChild(emoji);
+
+        emoji.addEventListener('animationend', () => {
+            emojiContainer.removeChild(emoji);
         });
-    
-        applySavedTheme();
-        startEmojiCreation();
-    
-        if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
-            location.replace('https:' + location.href.substring(location.protocol.length));
+    }
+
+    function startEmojiCreation() {
+        emojiInterval = setInterval(createFlyingEmoji, 600);
+    }
+
+    function stopEmojiCreation() {
+        clearInterval(emojiInterval);
+    }
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') {
+            stopEmojiCreation();
+        } else {
+            startEmojiCreation();
         }
-  </script>
+    });
+
+    applySavedTheme();
+    startEmojiCreation();
+
+    if (location.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
+        location.replace('https:' + location.href.substring(location.protocol.length));
+    }
+</script>
 </body>
 
 </html>
