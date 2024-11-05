@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Nationi</title>
+    <meta name="title" content="😳">
+    <meta name="description" content="😳">
+    <meta property="og:url" content="https://na.tioni.pw">
+    <meta property="og:title" content="Nationi">
+    <meta property="og:description" content="😳">
+    <link rel="stylesheet" href="animation text.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r75/three.min.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/175711/bas.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/175711/TextGeometry.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/175711/FontUtils.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/175711/pnltri.min.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/175711/droid_sans_bold.typeface.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+    <title>Animation text</title>
+
+    <!--Google Fonts-->>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+
+  </head>
+  <body>
+    <section id="social" class="social-links">
+      <div class="social-card">
+        <a href="https://t.me/nationiss" target="_blank" aria-label="Перейти в Telegram">
+          <i class="fab fa-telegram-plane"></i> @nationiss
+        </a>
+      </div>
+      <div class="social-card">
+        <a href="https://discordapp.com/users/1214640419141582949/" target="_blank" aria-label="Перейти в Discord">
+          <i class="fab fa-discord"></i> nationi.
+        </a>
+      </div>
+      <div class="social-card">
+        <a href="https://matrix.to/#/@nationi:hackliberty.org" target="_blank" aria-label="Перейти в Matrix">
+          <i class="fas fa-user-secret"></i> @nationi:hackliberty.org
+        </a>
+      </div>
+      <div class="social-card">
+        <a href="https://steamcommunity.com/id/Nationiss/" target="_blank" aria-label="Перейти в Steam">
+          <i class="fab fa-steam"></i> id/Nationiss/
+        </a>
+      </div>
+      <div class="social-card">
+        <a href="https://www.tiktok.com/@nationiss" target="_blank" aria-label="Перейти в TikTok">
+          <i class="fab fa-tiktok"></i> @nationiss
+        </a>
+      </div>
+      <div class="social-card">
+        <a href="mailto:n@tioni.pw" aria-label="Отправить Email">
+          <i class="fas fa-envelope"></i> n@tioni.pw
+        </a>
+      </div>
+    </section>    
+    <div id="three-container"></div>
+    <div id="instructions"></div>
+    <script>
+      THREE.ShapeUtils.triangulateShape = (function () {
+        var pnlTriangulator = new PNLTRI.Triangulator();
+        return function triangulateShape(contour, holes) {
+          return pnlTriangulator.triangulate_polygon([contour].concat(holes));
+        };
+      })();
+    </script>
+    <script src="animation text.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
