@@ -19,13 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
       const lightColor = `hsl(${randomHue}, ${saturation}, ${initialLightness})`;
       const brightColor = `hsl(${randomHue}, ${saturation}, ${hoverLightness})`;
       card.style.backgroundColor = lightColor;
-
-      // При наведении курсора
       card.addEventListener("mouseover", () => {
           card.style.backgroundColor = brightColor;
       });
-
-      // При убирании курсора
       card.addEventListener("mouseout", () => {
           card.style.backgroundColor = lightColor;
       });
