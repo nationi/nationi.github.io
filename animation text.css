@@ -116,8 +116,8 @@ flex: 2;
   border-radius: 8px; /* Закругленные углы, чтобы совпадали с карточкой */
   font-size: 1.2rem;
   transition: flex 0.7s ease, transform 0.5s ease, box-shadow 0.5s ease, background-color 0.7s ease;
-  width: 80%; /* Ссылка занимает 90% ширины карточки */
-  height: 80%; /* Ссылка занимает 90% высоты карточки */
+  width: 100%; /* Ссылка занимает 90% ширины карточки */
+  height: 70%; /* Ссылка занимает 90% высоты карточки */
 }
 
 @media (max-width: 768px) {
