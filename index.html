@@ -1,74 +1,227 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Nationi</title>
-    <meta name="title" content="😳">
-    <meta name="description" content="😳">
-    <meta property="og:url" content="https://na.tioni.pw">
-    <meta property="og:title" content="Nationi">
-    <meta property="og:description" content="😳">
-    <link rel="stylesheet" href="animation text.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="three.min.js"></script>
-    <script src="bas.js"></script>
-    <script src="TextGeometry.js"></script>
-    <script src="FontUtils.js"></script>
-    <script src="pnltri.min.js"></script>
-    <script src="droid_sans_bold.typeface.js"></script>
-    <script src="TweenMax.min.js"></script>
-
-    <!--Google Fonts-->>
+    <title>Мои социальные сети</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch&family=Space+Grotesk:wght@300&display=swap" rel="stylesheet">
+    
+    <style>
 
-  </head>
-  <body>
-    <section id="social" class="social-links">
-      <div class="social-card">
-        <a href="https://t.me/nationiss" target="_blank" aria-label="Перейти в Telegram">
-          <i class="fab fa-telegram-plane"></i> @nationiss
-        </a>
+        /* Стили для прелоадера */
+        .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #1d1d1d;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+        }
+
+        .preloader.hidden {
+        opacity: 0;
+        visibility: hidden;
+        }
+
+        /* Стили для спиннера */
+        .spinner {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #ffcc00;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+        }
+
+        /* Анимация вращения спиннера */
+        @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+        }
+
+
+
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: radial-gradient(circle, #151514, #747474);
+        }
+
+        .container {
+            text-align: center;
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
+            justify-content: center;
+            background: rgba(65, 65, 65, 0.7);
+            padding: 40px 20px;
+            border-radius: 15px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 
+                inset 0 2px 3px rgba(255, 255, 255, 0.3),
+                inset 0 -2px 3px rgba(0, 0, 0, 0.3),
+                0 1px 1px rgba(255, 255, 255, 0.9);
+        }   
+
+        h1 {
+            margin: 10px 0; 
+            color: #dadada;
+            font-size: 75px;
+            font-family: "Space Grotesk", serif;
+            text-shadow: 1px 1px 1px #d6a92c,
+                 1px 1px 1px #1d1d1d,
+                 1px 2px 1px #d6a92c,
+                 1px 3px 1px #d6a92c,
+                 1px 4px 1px #d6a92c,
+                 1px 5px 1px #d6a92c,
+                 1px 6px 1px #d6a92c,
+                 1px 10px 5px rgba(16, 16, 16, 0.5),
+                 1px 15px 10px rgba(16, 16, 16, 0.4),
+                 1px 20px 30px rgba(16, 16, 16, 0.3),
+                 1px 25px 50px rgba(16, 16, 16, 0.2);
+            transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        h1:hover {
+            color: #ffcc00;
+            transform: scale(1.05);
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        h2 {
+            margin: 10px 0 30px; 
+            color: #a0a0a0;
+            font-size: 25px;
+            font-family: "Chakra Petch", serif;
+            white-space: nowrap; 
+            overflow: hidden; 
+            border-right: .15em solid #FECD19; 
+            letter-spacing: .15em; 
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+            width: 13ch;
+            text-align: center;
+            user-select: none;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 13ch;
+            }
+        }
+
+        @keyframes blink-caret {
+            from, to {
+                border-color: transparent;
+            }
+            50% {
+                border-color: #FECD19;
+            }
+        }
+
+        .social-icons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .icon {
+            background: conic-gradient(#03a9f4, #e91e63, #9c27b0, #ff5722, #03a9f4);
+            color: #ffffff;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-size: 24px;
+            text-decoration: none;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            transition: box-shadow 0.3s, transform 0.3s;
+            animation: rotateGradient 2s ease-in-out infinite paused;
+            position: relative;
+        }
+
+        .icon:hover {
+            box-shadow: 0 0 30px #e91e63, 0 0 50px #9c27b0;
+            transform: scale(1.1);
+            animation-play-state: running;
+        }
+
+        .icon::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: conic-gradient(#03a9f4, #e91e63, #9c27b0, #ff5722, #03a9f4);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        @keyframes rotateGradient {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 18px;
+            color: #ffffff;
+        }
+
+        a:hover {
+            color: #e0e0e0;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="preloader">
+        <div class="spinner"></div>
       </div>
-      <div class="social-card">
-        <a href="https://discordapp.com/users/1214640419141582949/" target="_blank" aria-label="Перейти в Discord">
-          <i class="fab fa-discord"></i> nationi.
-        </a>
-      </div>
-      <div class="social-card">
-        <a href="https://matrix.to/#/@nationi:hackliberty.org" target="_blank" aria-label="Перейти в Matrix">
-          <i class="fas fa-user-secret"></i> @nationi:hackliberty.org
-        </a>
-      </div>
-      <div class="social-card">
-        <a href="https://steamcommunity.com/id/Nationiss/" target="_blank" aria-label="Перейти в Steam">
-          <i class="fab fa-steam"></i> id/Nationiss/
-        </a>
-      </div>
-      <div class="social-card">
-        <a href="https://www.tiktok.com/@nationiss" target="_blank" aria-label="Перейти в TikTok">
-          <i class="fab fa-tiktok"></i> @nationiss
-        </a>
-      </div>
-      <div class="social-card">
-        <a href="mailto:n@tioni.pw" aria-label="Отправить Email">
-          <i class="fas fa-envelope"></i> n@tioni.pw
-        </a>
-      </div>
-    </section>    
-    <div id="three-container"></div>
-    <div id="instructions"></div>
-    <script>
-      THREE.ShapeUtils.triangulateShape = (function () {
-        var pnlTriangulator = new PNLTRI.Triangulator();
-        return function triangulateShape(contour, holes) {
-          return pnlTriangulator.triangulate_polygon([contour].concat(holes));
-        };
-      })();
-    </script>
-    <script src="animation text.js"></script>
+    <div class="container">
+        <h1>Nationi</h1>
+        <h2>tasya's lover</h2>
+        <div class="social-icons">
+            <a href="https://t.me/nationiss" class="icon" target="_blank" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://discordapp.com/users/1214640419141582949/" class="icon" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+            <a href="https://matrix.to/#/@nationi:hackliberty.org" class="icon" target="_blank" aria-label="Matrix"><i class="fa-brands fa-elementor"></i></a>
+            <a href="https://steamcommunity.com/id/Nationiss/" class="icon" target="_blank" aria-label="Steam"><i class="fab fa-steam"></i></a>
+            <a href="https://www.tiktok.com/@nationiss" class="icon" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="mailto:n@tioni.pw" class="icon" target="_blank" aria-label="Email"><i class="fas fa-envelope"></i></a>
+        </div>
+    </div>
+    <canvas id="snow-flake-app"></canvas>
     <script src="script.js"></script>
-  </body>
+</body>
 </html>
