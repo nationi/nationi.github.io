@@ -87,6 +87,7 @@
             font-size: 75px;
             font-family: "Shrikhand", serif;
             cursor: default;
+            animation: fadeIn 1.5s ease-out;
             text-shadow: 1px 1px 1px #d6a92c,
                  1px 1px 1px #1d1d1d,
                  1px 2px 1px #d6a92c,
@@ -122,6 +123,11 @@
             width: 16ch;
             position: relative; 
             top: -10px; 
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes typing {
@@ -224,9 +230,15 @@
             <a href="https://steamcommunity.com/id/Nationiss/" class="icon" target="_blank" aria-label="Steam"><i class="fab fa-steam"></i></a>
             <a href="https://www.tiktok.com/@nationiss" class="icon" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
             <a href="mailto:n@tioni.pw" class="icon" target="_blank" aria-label="Email"><i class="fas fa-envelope"></i></a>
-        </div>
-    </div>
+        </div> 
+    </div>  
     <canvas id="snow-flake-app"></canvas>
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('mousemove', (e) => {
+            document.body.style.backgroundPositionX = -e.clientX / 50 + 'px';
+            document.body.style.backgroundPositionY = -e.clientY / 50 + 'px';
+        });
+    </script>
 </body>
 </html>
