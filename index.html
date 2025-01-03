@@ -8,10 +8,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo&family=Shrikhand&display=swap" rel="stylesheet">
+
 	
-    
     <style>
-        
+
         .preloader {
         position: fixed;
         top: 0;
@@ -44,9 +44,6 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
         }
-
-
-
 
         body {
             font-family: 'Arial', sans-serif;
@@ -392,19 +389,15 @@
             document.body.style.backgroundPositionX = -e.clientX / 50 + 'px';
             document.body.style.backgroundPositionY = -e.clientY / 50 + 'px';
         });
-    </script>
-    <script>
         var dialog = document.querySelector('dialog');
         var openBtn = document.querySelector('#open');
         var closeBtn = document.querySelector('#close');
-
         openBtn.onclick = function () {
             dialog.showModal();
             requestAnimationFrame(() => {
                 dialog.classList.add('show');
             });
         };
-
         closeBtn.onclick = function () {
             dialog.classList.remove('show');
             dialog.classList.add('hide');
@@ -413,11 +406,9 @@
                 dialog.close();
             }, { once: true });
         };
-
                 function copyToClipboard(text) {
             const nationiElement = document.querySelector('.nationi');
             nationiElement.classList.add('clicked');
-
             (async () => {
                 try {
                     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -434,18 +425,15 @@
                 }
             })();
         }
-
         function fallbackCopyTextToClipboard(text) {
             const textArea = document.createElement('textarea');
             textArea.value = text;
             textArea.style.position = 'fixed';
             textArea.style.top = '-1000px';
             textArea.style.left = '-1000px';
-
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
-
             try {
                 document.execCommand('copy');
             } catch (err) {
@@ -454,8 +442,6 @@
 
             document.body.removeChild(textArea);
         }
-
-
     </script>
 </body>
 </html>
