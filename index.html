@@ -8,10 +8,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo&family=Shrikhand&display=swap" rel="stylesheet">
-
 	
+    
     <style>
-
+        
         .preloader {
         position: fixed;
         top: 0;
@@ -44,6 +44,9 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
         }
+
+
+
 
         body {
             font-family: 'Arial', sans-serif;
@@ -344,6 +347,31 @@
             animation: clickAnimation 0.5s ease;
         }
 
+        button.ok-btn {
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+
+        dialog p {
+            font-family: 'Exo', sans-serif;
+            font-size: 16px;
+            color: #f5f5f5;
+            line-height: 1.5;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        dialog p .nationi {
+            font-family: 'Exo', serif;
+            font-size: 20px;
+            color: #ffffff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+        }
+
         @keyframes clickAnimation {
             0% {
                 transform: scale(1);
@@ -355,6 +383,23 @@
                 transform: scale(1); 
             }
         }
+
+        @keyframes modalTextFade {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        dialog p {
+            animation: modalTextFade 0.5s ease-out;
+        }
+
+
 
     </style>
 </head>
@@ -375,7 +420,7 @@
             <dialog>
                 <p>
                     Click to Copy: 
-                    <span class="nationi" onclick="copyToClipboard('@nationi.')">@nationi.</span> ← ← ← с точкой на конце.              </p>
+                    <span class="nationi" onclick="copyToClipboard('@nationi.')">@nationi.</span> ⇾ с точкой на конце.              </p>
                 <p>
                     <button id="close" class="ok-btn">Океу</button>
                 </p>
@@ -392,12 +437,14 @@
         var dialog = document.querySelector('dialog');
         var openBtn = document.querySelector('#open');
         var closeBtn = document.querySelector('#close');
+
         openBtn.onclick = function () {
             dialog.showModal();
             requestAnimationFrame(() => {
                 dialog.classList.add('show');
             });
         };
+
         closeBtn.onclick = function () {
             dialog.classList.remove('show');
             dialog.classList.add('hide');
@@ -406,9 +453,11 @@
                 dialog.close();
             }, { once: true });
         };
+
                 function copyToClipboard(text) {
             const nationiElement = document.querySelector('.nationi');
             nationiElement.classList.add('clicked');
+
             (async () => {
                 try {
                     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -425,15 +474,18 @@
                 }
             })();
         }
+
         function fallbackCopyTextToClipboard(text) {
             const textArea = document.createElement('textarea');
             textArea.value = text;
             textArea.style.position = 'fixed';
             textArea.style.top = '-1000px';
             textArea.style.left = '-1000px';
+
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
+
             try {
                 document.execCommand('copy');
             } catch (err) {
@@ -442,6 +494,8 @@
 
             document.body.removeChild(textArea);
         }
+
+
     </script>
 </body>
 </html>
