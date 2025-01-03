@@ -238,6 +238,21 @@
             color: #fff;
             text-align: center;
             z-index: 101;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            pointer-events: none;
+        }
+
+        dialog.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+
+        dialog.hide {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
         }
 
         body::before {
@@ -323,6 +338,8 @@
         }
 
         .nationi:hover {
+            background: #4c6faf;
+            color: #fff;
             transform: scale(1.05);
         }
 
@@ -378,14 +395,24 @@
     </script>
     <script>
         var dialog = document.querySelector('dialog');
+        var openBtn = document.querySelector('#open');
+        var closeBtn = document.querySelector('#close');
 
-        document.querySelector('#open').onclick = function () {
+        openBtn.onclick = function () {
             dialog.showModal();
-        }
+            requestAnimationFrame(() => {
+                dialog.classList.add('show');
+            });
+        };
 
-        document.querySelector('#close').onclick = function () {
-            dialog.close();
-        }
+        closeBtn.onclick = function () {
+            dialog.classList.remove('show');
+            dialog.classList.add('hide');
+            dialog.addEventListener('transitionend', () => {
+                dialog.classList.remove('hide');
+                dialog.close();
+            }, { once: true });
+        };
 
         function copyToClipboard(text) {
         const nationiElement = document.querySelector('.nationi');
