@@ -415,13 +415,43 @@
         };
 
         function copyToClipboard(text) {
-        const nationiElement = document.querySelector('.nationi');
-        nationiElement.classList.add('clicked');
-        navigator.clipboard.writeText(text)
-        setTimeout(() => {
-            nationiElement.classList.remove('clicked');
-        }, 500); 
-    }
+            const nationiElement = document.querySelector('.nationi');
+            nationiElement.classList.add('clicked');
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).catch(err => {
+                    console.error('Ошибка при копировании через Clipboard API:', err);
+                    fallbackCopyTextToClipboard(text);
+                });
+            } else {
+                fallbackCopyTextToClipboard(text);
+            }
+
+            setTimeout(() => {
+                nationiElement.classList.remove('clicked');
+            }, 500);
+        }
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+
+            textArea.style.position = 'fixed';
+            textArea.style.top = '-1000px';
+            textArea.style.left = '-1000px';
+
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                document.execCommand('copy');
+            } catch (err) {
+                console.error('Ошибка при копировании с помощью execCommand:', err);
+            }
+
+            document.body.removeChild(textArea);
+        }
+
     </script>
 </body>
 </html>
