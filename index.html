@@ -1077,9 +1077,9 @@
     <!-- Оптимизированная загрузка скриптов -->
     <script src="script.js" defer></script>
     <script>
-
         document.addEventListener('DOMContentLoaded', () => {
 
+            const card = document.querySelector('.card');
             const cursorDot = document.querySelector('.cursor-dot');
             const cursorOutline = document.querySelector('.cursor-outline');
             let cursorVisible = false;
@@ -1091,10 +1091,19 @@
             let outlineY = 0;
             let magneticElements = [];
 
+            function resetCursorStyles() {
+                cursorDot.style.width = '8px';
+                cursorDot.style.height = '8px';
+                cursorOutline.style.width = '40px';
+                cursorOutline.style.height = '40px';
+                cursorOutline.style.opacity = '0.5';
+                cursorOutline.style.transform = 'translate(-50%, -50%)';
+            }
+
             function initMagneticElements() {
                 const interactiveElements = document.querySelectorAll('a, button, .nationi');
+                magneticElements = []; 
                 interactiveElements.forEach(el => {
-
                     magneticElements.push({
                         element: el,
                         originalTransform: el.style.transform || '',
@@ -1120,7 +1129,6 @@
                 if (!cursorVisible) return;
 
                 const ease = 0.15;
-                const friction = 0.92;
 
                 const dx = mouseX - outlineX;
                 const dy = mouseY - outlineY;
@@ -1134,22 +1142,42 @@
                 cursorOutline.style.top = `${outlineY}px`;
 
                 const speed = Math.sqrt(dx * dx + dy * dy) * 0.1;
-                if (speed > 0.5) {
 
-                    const scaleX = 1 + speed * 0.01;
-                    const scaleY = 1 - speed * 0.01;
+                if (speed > 0.5 && speed < 10) {
+
+                    const maxDeform = 0.2;
+                    const deformFactor = Math.min(speed * 0.01, maxDeform);
+
+                    const scaleX = 1 + deformFactor;
+                    const scaleY = 1 - deformFactor;
+
                     cursorOutline.style.transform = `translate(-50%, -50%) scale(${scaleX}, ${scaleY})`;
                 } else {
-                    cursorOutline.style.transform = `translate(-50%, -50%)`;
+
+                    cursorOutline.style.transform = 'translate(-50%, -50%)';
                 }
 
                 let magneticActive = false;
-                magneticElements.forEach(item => {
+
+                for (let i = 0; i < magneticElements.length; i++) {
+                    const item = magneticElements[i];
                     const rect = item.element.getBoundingClientRect();
+
+                    if (mouseX < rect.left - 100 || mouseX > rect.right + 100 || 
+                        mouseY < rect.top - 100 || mouseY > rect.bottom + 100) {
+                        if (item.active) {
+                            item.active = false;
+                        }
+                        continue;
+                    }
+
                     const centerX = rect.left + rect.width / 2;
                     const centerY = rect.top + rect.height / 2;
                     const distance = Math.hypot(mouseX - centerX, mouseY - centerY);
-                    const maxDistance = Math.max(rect.width, rect.height) * 1.5;
+
+                    const radiusX = rect.width / 2;
+                    const radiusY = rect.height / 2;
+                    const maxDistance = Math.max(radiusX, radiusY) * 1.5;
 
                     if (distance < maxDistance) {
                         magneticActive = true;
@@ -1165,7 +1193,7 @@
                             cursorOutline.style.height = `${40 + (power * 30)}px`;
                             cursorOutline.style.opacity = `${0.3 + (power * 0.4)}`;
 
-                            if (distance < maxDistance * 0.5) {
+                            if (distance < maxDistance * 0.4) {
                                 document.body.classList.add('cursor-attract');
                             } else {
                                 document.body.classList.remove('cursor-attract');
@@ -1173,19 +1201,14 @@
                         }
                     } else if (item.active) {
                         item.active = false;
-
                     }
-                });
+                }
 
                 if (!magneticActive) {
                     document.body.classList.remove('cursor-attract');
 
                     if (!isPressed) {
-                        cursorDot.style.width = '8px';
-                        cursorDot.style.height = '8px';
-                        cursorOutline.style.width = '40px';
-                        cursorOutline.style.height = '40px';
-                        cursorOutline.style.opacity = '0.5';
+                        resetCursorStyles();
                     }
                 }
 
@@ -1193,7 +1216,14 @@
             }
 
             if (!('ontouchstart' in window)) {
+
+                let lastMoveTime = 0;
                 document.addEventListener('mousemove', (e) => {
+
+                    const now = Date.now();
+                    if (now - lastMoveTime < 5) return;
+                    lastMoveTime = now;
+
                     setCursorVisible(true);
                     mouseX = e.clientX;
                     mouseY = e.clientY;
@@ -1258,34 +1288,40 @@
                     }
                 });
 
+                let iconTransforms = new Map(); 
+
+                document.querySelectorAll('.icon').forEach(icon => {
+
+                    iconTransforms.set(icon, icon.style.transform || '');
+
+                    icon.addEventListener('mousemove', e => {
+                        const rect = icon.getBoundingClientRect();
+                        const x = (e.clientX - rect.left) / rect.width - 0.5;
+                        const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+                        const rotateX = -y * 15;
+                        const rotateY = x * 15;
+
+                        icon.style.transform = `
+                            perspective(500px) 
+                            rotateX(${rotateX}deg) 
+                            rotateY(${rotateY}deg) 
+                            translateZ(10px)
+                        `;
+                    });
+
+                    icon.addEventListener('mouseleave', () => {
+
+                        icon.style.transform = 'perspective(500px) rotateX(0) rotateY(0) translateZ(0)';
+                    });
+                });
+
                 initMagneticElements();
             } else {
 
                 cursorDot.style.display = 'none';
                 cursorOutline.style.display = 'none';
             }
-
-            document.querySelectorAll('.icon').forEach(icon => {
-                icon.addEventListener('mousemove', e => {
-                    const rect = icon.getBoundingClientRect();
-                    const x = (e.clientX - rect.left) / rect.width - 0.5;
-                    const y = (e.clientY - rect.top) / rect.height - 0.5;
-
-                    const rotateX = -y * 15;
-                    const rotateY = x * 15;
-
-                    icon.style.transform = `
-                        perspective(500px) 
-                        rotateX(${rotateX}deg) 
-                        rotateY(${rotateY}deg) 
-                        translateZ(10px)
-                    `;
-                });
-
-                icon.addEventListener('mouseleave', () => {
-                    icon.style.transform = 'perspective(500px) rotateX(0) rotateY(0) translateZ(0)';
-                });
-            });
 
             const [dialog, openBtn, closeBtn, discordTag] = [
                 document.querySelector('dialog'),
@@ -1320,7 +1356,6 @@
             });
 
             if ('ontouchstart' in window) {
-
                 dialog.addEventListener('click', (e) => {
                     if (e.target === dialog) {
                         toggleModal(false);
@@ -1376,7 +1411,6 @@
             };
 
             const showFeedback = (message, success = true) => {
-
                 const existingFeedback = document.querySelector('.feedback');
                 if (existingFeedback) {
                     existingFeedback.remove();
@@ -1423,7 +1457,6 @@
                 }
             };
 
-            const card = document.querySelector('.card');
             document.addEventListener('mousemove', (e) => {
                 if (window.innerWidth <= 768) return; 
 
@@ -1438,7 +1471,6 @@
             });
 
             document.addEventListener('mouseout', (e) => {
-
                 if (!e.relatedTarget && !e.toElement) {
                     card.style.transform = '';
                 }
