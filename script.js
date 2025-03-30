@@ -1,134 +1,361 @@
 window.addEventListener('load', () => {
     const preloader = document.querySelector('.preloader');
+
     preloader.classList.add('hidden');
-  
+
     setTimeout(() => {
       preloader.remove();
     }, 1000); 
-  });
-(function(){
-window.animation_config = window.animation_config || {
-    generatorDelay : { min: 1, max:20 },
-    isRunning : true,
-    speed : 1,
-    x_axis_rate : 0.1,
-    weight : 0.5,
-    size : 1.5,
-    z_axis_rate : 0.05,
-    color : {b : 255, a: 0.8},
-    wind : 0
-};
-window.animation_config.isRunning = true;
+});
 
-let canvas = document.getElementById('snow-flake-app');
-let ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-const generatorDelay = { min: 1, max:1 };
-let screenBounds = { lower: 0, upper: canvas.width};
+(() => {
 
-window.onfocus = function() {
-  //window.animation_config.isRunning = true;
-};
-window.onblur = function() {
-  //window.animation_config.isRunning = false;
-};
+    const canvas = document.getElementById('particles-canvas');
 
-let particleArray = [];
-
-function randomInt(min = 0, max = 1){
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-function randomFloat(min = 0, max = 1){
-    return (Math.random() * (max - min)) + min;
-}
-function randomColor(brightness, alpha){
-    return 'rgba(' + randomInt(brightness,255) + ',' + randomInt(brightness,255) + ',' + randomInt(brightness,255) + ',' + alpha + ')';
-}
-
-class Particle{
-    constructor(pos, vector, z_index, size, color, weight){
-        this.pos = pos;
-        this.vector = vector;
-        this.z_index = z_index%5;
-        this.color = color;
-        this.size = size%50;
-        this.weight = weight%50;
+    if (!canvas) {
+        console.error('Canvas element not found');
+        return; 
     }
-    
-    get displaySize(){
-        return Math.sqrt(this.z_index*this.size) * window.animation_config.size;
+
+    const ctx = canvas.getContext('2d');
+
+    if (!ctx) {
+        console.error('Failed to get 2d context');
+        return; 
     }
-    
-    draw(){
-        if(this.death || !(this.pos.x >= 0 && this.pos.x <= canvas.width )) return;
-        ctx.beginPath();
-        ctx.arc(this.pos.x, this.pos.y, this.displaySize, 0, Math.PI*2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
+
+    const PARTICLE_CONFIG = {
+        amount: 150,            
+        size: {
+            min: 1,
+            max: 5
+        },
+        speed: {
+            min: 0.2,
+            max: 0.8
+        },
+        opacity: {
+            min: 0.1,
+            max: 0.7
+        },
+        colors: ['#6C63FF', '#F468B7', '#40E0D0', '#FFFFFF'],
+        connectionDistance: 150,
+        connectionOpacity: 0.15,
+        responsive: true        
+    };
+
+    const adjustConfigForScreenSize = () => {
+        const config = { ...PARTICLE_CONFIG };
+        const { innerWidth, innerHeight } = window;
+
+        const smallerDimension = Math.min(innerWidth, innerHeight);
+
+        const isLowEndDevice = () => {
+
+            const isLowRAM = navigator.deviceMemory && navigator.deviceMemory <= 4; 
+            const isLowCores = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4; 
+
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            return isLowRAM || isLowCores || isMobile;
+        };
+
+        if (innerWidth <= 768) {
+            config.amount = 100;
+            config.connectionDistance = 120;
+        }
+
+        if (innerWidth <= 480) {
+            config.amount = 60;
+            config.connectionDistance = 80;
+        }
+
+        if (smallerDimension <= 350) {
+            config.amount = 40;
+            config.connectionDistance = 60;
+        }
+
+        if (isLowEndDevice()) {
+            config.amount = Math.max(20, Math.floor(config.amount * 0.6));
+            config.connectionOpacity *= 0.7;
+
+            if (smallerDimension <= 400) {
+                config.amount = Math.max(15, Math.floor(config.amount * 0.7));
+                config.connectionDistance = Math.floor(config.connectionDistance * 0.7);
+            }
+        }
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+            config.amount = Math.max(10, Math.floor(config.amount * 0.5));
+            config.speed.max *= 0.5;
+            config.speed.min *= 0.5;
+        }
+
+        return config;
+    };
+
+    let config = adjustConfigForScreenSize();
+
+    let particles = [];
+
+    class Particle {
+        constructor() {
+            this.init();
+        }
+
+        init() {
+
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+
+            this.vx = (Math.random() - 0.5) * config.speed.max;
+            this.vy = (Math.random() - 0.5) * config.speed.max;
+
+            this.size = Math.random() * (config.size.max - config.size.min) + config.size.min;
+
+            this.color = config.colors[Math.floor(Math.random() * config.colors.length)];
+
+            this.opacity = Math.random() * (config.opacity.max - config.opacity.min) + config.opacity.min;
+
+            this.pulseSpeed = Math.random() * 0.02 + 0.01;
+            this.pulseFactor = 0;
+
+            this.currentSize = this.size;
+            this.currentOpacity = this.opacity;
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.currentSize, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.globalAlpha = this.currentOpacity;
+            ctx.fill();
+            ctx.globalAlpha = 1;
+        }
+
+        drawConnections(particles) {
+            particles.forEach(particle => {
+                const distance = this.getDistance(particle);
+                if (distance < config.connectionDistance && distance > 0) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = this.color;
+
+                    const opacity = (1 - distance / config.connectionDistance) * config.connectionOpacity;
+                    ctx.globalAlpha = opacity;
+
+                    ctx.lineWidth = 0.5;
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(particle.x, particle.y);
+                    ctx.stroke();
+                    ctx.globalAlpha = 1;
+                }
+            });
+        }
+
+        getDistance(particle) {
+            const dx = this.x - particle.x;
+            const dy = this.y - particle.y;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
     }
-    
-    update(){
-        this.vector.z += randomFloat(-0.1,0.1);
-        this.z_index += this.vector.z * window.animation_config.z_axis_rate;
-        if(this.z_index <= 0) this.z_index = Math.abs(this.z_index);
-        if(this.pos.y > canvas.height - this.displaySize || !(this.pos.x >= screenBounds.lower && this.pos.x <= screenBounds.upper ) || this.displaySize <= 0){
-            this.death = true;
+
+    const init = () => {
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        config = adjustConfigForScreenSize();
+
+        particles = [];
+        for (let i = 0; i < config.amount; i++) {
+            particles.push(new Particle());
+        }
+    };
+
+    let isPageVisible = true;
+    let animationFrameId = null;
+    let lastTimestamp = 0;
+
+    const toggleAnimation = (visible) => {
+        isPageVisible = visible;
+
+        if (visible) {
+
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+
+            animationFrameId = requestAnimationFrame(animate);
+            lastTimestamp = performance.now(); 
+        } else if (animationFrameId) {
+
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+    };
+
+    if (document.hidden !== undefined) {
+
+        document.addEventListener('visibilitychange', () => {
+            toggleAnimation(!document.hidden);
+        }, { passive: true });
+    }
+
+    window.addEventListener('blur', () => toggleAnimation(false), { passive: true });
+    window.addEventListener('focus', () => toggleAnimation(true), { passive: true });
+
+    window.addEventListener('mousemove', () => {
+        if (!isPageVisible) toggleAnimation(true);
+    }, { passive: true, once: true });
+
+    document.addEventListener('visibilitychange', () => {
+
+        if (!document.hidden && performance.now() - lastTimestamp > 5000) {
+
+            console.log('Принудительное возобновление анимации после длительного простоя');
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+            lastTimestamp = performance.now();
+            isPageVisible = true;
+            animationFrameId = requestAnimationFrame(animate);
+        }
+    });
+
+    setInterval(() => {
+        if (isPageVisible && !animationFrameId && document.visibilityState === 'visible') {
+            console.log('Обнаружена остановка анимации, перезапуск');
+            lastTimestamp = performance.now();
+            animationFrameId = requestAnimationFrame(animate);
+        }
+    }, 10000);
+
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+
+        clearTimeout(resizeTimeout);
+
+        resizeTimeout = setTimeout(() => {
+            if (config.responsive) {
+                init();
+            }
+        }, 150);
+    }, { passive: true });
+
+    init();
+    animationFrameId = requestAnimationFrame(animate);
+
+    function animate(timestamp) {
+        if (!isPageVisible) {
+            animationFrameId = null;
             return;
         }
-        
-        this.vector.x += (randomFloat(-0.3, 0.3) * this.z_index) * window.animation_config.x_axis_rate;
-        this.vector.y = Math.sqrt(this.weight * this.size * this.z_index) * window.animation_config.speed;
-        
-        
-        this.pos.x += this.vector.x + window.animation_config.wind;
-        this.pos.y += this.vector.y;
-    }
-}
 
-function init(){
-    particleArray = [];
-    
-    function generateRandomParticle(){
-        if(window.animation_config.isRunning){
-            if(window.animation_config.wind > 0) {
-                screenBounds.lower = (window.animation_config.wind * 200) * -1;
-                screenBounds.upper = canvas.width;
+        if (!lastTimestamp) lastTimestamp = timestamp;
+        const deltaTime = Math.min(timestamp - lastTimestamp, 100) / 1000; 
+        lastTimestamp = timestamp;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach(particle => {
+
+            particle.x += particle.vx * deltaTime * 60; 
+            particle.y += particle.vy * deltaTime * 60;
+
+            particle.pulseFactor += particle.pulseSpeed * deltaTime * 60;
+            const pulse = Math.sin(particle.pulseFactor) * 0.5 + 0.5;
+            particle.currentSize = particle.size * (0.8 + pulse * 0.4);
+            particle.currentOpacity = particle.opacity * (0.7 + pulse * 0.3);
+
+            if (particle.x < 0 || particle.x > canvas.width || 
+                particle.y < 0 || particle.y > canvas.height) {
+                particle.init();
+
+                if (particle.x < 0) particle.x = canvas.width;
+                if (particle.x > canvas.width) particle.x = 0;
+                if (particle.y < 0) particle.y = canvas.height;
+                if (particle.y > canvas.height) particle.y = 0;
             }
-            else if(window.animation_config.wind < 0) {
-                screenBounds.lower = 0;
-                screenBounds.upper = canvas.width + (window.animation_config.wind * -200);
+
+            particle.draw();
+
+            particle.drawConnections(particles);
+        });
+
+        animationFrameId = requestAnimationFrame(animate);
+    }
+
+    let lastMouseMoveTime = 0;
+    const mouseMoveThrottle = 1000 / 60; 
+
+    const handleMouseMove = (e) => {
+        const currentTime = Date.now();
+
+        if (currentTime - lastMouseMoveTime < mouseMoveThrottle) return;
+
+        lastMouseMoveTime = currentTime;
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+
+        particles.forEach(particle => {
+
+            const dx = mouseX - particle.x;
+            const dy = mouseY - particle.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 100) {
+                const force = (100 - distance) / 500;
+                particle.vx -= dx * force;
+                particle.vy -= dy * force;
             }
-            let pos = { x: randomInt(screenBounds.lower, screenBounds.upper), y: 0 };
-            let vector = { x: randomFloat(-0.3,0.3), y: randomFloat(-5,5), z: randomFloat(-0.1,0.1)};
-            let s = randomFloat(0.1,5);
-            let z = randomFloat(0.2,5);
-            let c = randomColor(window.animation_config.color.b, window.animation_config.color.a);
-            let w = window.animation_config.weight;
-            particleArray.push(new Particle(pos,vector,z,s,c,w));
-        }
-        setTimeout(generateRandomParticle, randomInt(window.animation_config.generatorDelay.min, window.animation_config.generatorDelay.max));
-    }
-    
-    
-    generateRandomParticle();
-}
+        });
+    };
 
-function animate(){
-    
-    if(window.animation_config.isRunning){
-        ctx.clearRect(0,0, canvas.width, canvas.height);
-        particleArray = particleArray.filter(particle => !particle.death);
-        for(let i = 0; i < particleArray.length; i++){
-            particleArray[i].update();
-            particleArray[i].draw();
-        }
+    if (!('ontouchstart' in window)) {
+        document.addEventListener('mousemove', handleMouseMove, { passive: true });
     }
-    requestAnimationFrame(animate);
-}
 
-init();
-animate();
+    const handleClick = (e) => {
+
+        const x = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+        const y = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+
+        if (!x && !y) return; 
+
+        const particleCount = 'ontouchstart' in window ? 5 : 10;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = new Particle();
+            particle.x = x;
+            particle.y = y;
+            particle.vx = (Math.random() - 0.5) * 5;
+            particle.vy = (Math.random() - 0.5) * 5;
+            particle.size = Math.random() * 4 + 2;
+            particle.opacity = 1;
+            particles.push(particle);
+
+            if (particles.length > config.amount + 30) {
+                particles.shift();
+            }
+        }
+    };
+
+    document.addEventListener('click', handleClick, { passive: true });
+
+    canvas.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 0) {
+            e.preventDefault(); 
+            handleClick(e);
+        }
+    }, { passive: false });
+
+    document.addEventListener('touchstart', (e) => {
+
+        if (e.target !== canvas && e.touches.length > 0) {
+            handleClick(e);
+        }
+    }, { passive: true });
 })();
-
-
