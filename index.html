@@ -167,20 +167,84 @@
             pointer-events: none;
             z-index: 9999;
             transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s;
+            transition: width 0.2s, height 0.2s, background-color 0.3s, opacity 0.3s;
+            will-change: transform, width, height, left, top;
+            mix-blend-mode: difference;
+            box-shadow: 0 0 6px rgba(108, 99, 255, 0.5);
+            filter: drop-shadow(0 0 5px var(--primary-color));
         }
 
         .cursor-outline {
             width: 40px;
             height: 40px;
-            border: 2px solid var(--primary-color);
+            border: 2px solid rgba(108, 99, 255, 0.5);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
             z-index: 9998;
             transform: translate(-50%, -50%);
-            transition: all 0.1s ease-out;
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        height 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             opacity: 0.5;
+            will-change: transform, width, height, left, top;
+        }
+
+        .cursor-dot.active {
+            transform: translate(-50%, -50%) scale(0.7);
+            background-color: var(--secondary-color);
+            box-shadow: 0 0 12px rgba(244, 104, 183, 0.8);
+            filter: drop-shadow(0 0 8px var(--secondary-color));
+        }
+
+        .cursor-outline.active {
+            transform: translate(-50%, -50%) scale(1.2);
+            opacity: 0.2;
+            border-color: var(--secondary-color);
+            border-width: 1px;
+        }
+
+        .cursor-outline::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .cursor-outline.active::after {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.8;
+        }
+
+        .cursor-magnet {
+            transition: transform 0.6s var(--transition-smooth);
+        }
+
+        .cursor-attract .cursor-dot {
+            animation: pulse 1.5s cubic-bezier(0.19, 1, 0.22, 1) infinite;
+        }
+
+        .cursor-attract .cursor-outline {
+            animation: pulseOutline 1.5s cubic-bezier(0.19, 1, 0.22, 1) infinite 0.1s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        @keyframes pulseOutline {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); border-color: rgba(108, 99, 255, 0.5); }
+            50% { transform: translate(-50%, -50%) scale(1.05); border-color: rgba(108, 99, 255, 0.8); }
         }
 
         .container {
@@ -240,6 +304,7 @@
             display: inline-block;
             transform: scale(0.9);
             opacity: 0.8;
+            user-select: none;
         }
 
         @keyframes pulseShadow {
@@ -294,6 +359,7 @@
             padding: 0.25rem 0.75rem;
             border-radius: 8px;
             transition: all 0.3s var(--transition-smooth);
+            user-select: none;
             background: linear-gradient(90deg, 
                 rgba(108, 99, 255, 0.08), 
                 rgba(244, 104, 183, 0.08));
@@ -1016,60 +1082,188 @@
 
             const cursorDot = document.querySelector('.cursor-dot');
             const cursorOutline = document.querySelector('.cursor-outline');
+            let cursorVisible = false;
+            let isPressed = false;
+            let rafId = null;
+            let mouseX = 0;
+            let mouseY = 0;
+            let outlineX = 0;
+            let outlineY = 0;
+            let magneticElements = [];
+
+            function initMagneticElements() {
+                const interactiveElements = document.querySelectorAll('a, button, .nationi');
+                interactiveElements.forEach(el => {
+
+                    magneticElements.push({
+                        element: el,
+                        originalTransform: el.style.transform || '',
+                        strength: 0.3, 
+                        active: false
+                    });
+                });
+            }
+
+            function setCursorVisible(visible) {
+                if (visible && !cursorVisible) {
+                    cursorVisible = true;
+                    cursorDot.style.opacity = '1';
+                    cursorOutline.style.opacity = '0.5';
+                } else if (!visible && cursorVisible) {
+                    cursorVisible = false;
+                    cursorDot.style.opacity = '0';
+                    cursorOutline.style.opacity = '0';
+                }
+            }
+
+            function updateCursor() {
+                if (!cursorVisible) return;
+
+                const ease = 0.15;
+                const friction = 0.92;
+
+                const dx = mouseX - outlineX;
+                const dy = mouseY - outlineY;
+
+                outlineX += dx * ease;
+                outlineY += dy * ease;
+
+                cursorDot.style.left = `${mouseX}px`;
+                cursorDot.style.top = `${mouseY}px`;
+                cursorOutline.style.left = `${outlineX}px`;
+                cursorOutline.style.top = `${outlineY}px`;
+
+                const speed = Math.sqrt(dx * dx + dy * dy) * 0.1;
+                if (speed > 0.5) {
+
+                    const scaleX = 1 + speed * 0.01;
+                    const scaleY = 1 - speed * 0.01;
+                    cursorOutline.style.transform = `translate(-50%, -50%) scale(${scaleX}, ${scaleY})`;
+                } else {
+                    cursorOutline.style.transform = `translate(-50%, -50%)`;
+                }
+
+                let magneticActive = false;
+                magneticElements.forEach(item => {
+                    const rect = item.element.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+                    const distance = Math.hypot(mouseX - centerX, mouseY - centerY);
+                    const maxDistance = Math.max(rect.width, rect.height) * 1.5;
+
+                    if (distance < maxDistance) {
+                        magneticActive = true;
+                        item.active = true;
+
+                        if (!('ontouchstart' in window)) {
+
+                            const power = 1 - Math.min(distance / maxDistance, 1);
+
+                            cursorDot.style.width = `${8 + (power * 6)}px`;
+                            cursorDot.style.height = `${8 + (power * 6)}px`;
+                            cursorOutline.style.width = `${40 + (power * 30)}px`;
+                            cursorOutline.style.height = `${40 + (power * 30)}px`;
+                            cursorOutline.style.opacity = `${0.3 + (power * 0.4)}`;
+
+                            if (distance < maxDistance * 0.5) {
+                                document.body.classList.add('cursor-attract');
+                            } else {
+                                document.body.classList.remove('cursor-attract');
+                            }
+                        }
+                    } else if (item.active) {
+                        item.active = false;
+
+                    }
+                });
+
+                if (!magneticActive) {
+                    document.body.classList.remove('cursor-attract');
+
+                    if (!isPressed) {
+                        cursorDot.style.width = '8px';
+                        cursorDot.style.height = '8px';
+                        cursorOutline.style.width = '40px';
+                        cursorOutline.style.height = '40px';
+                        cursorOutline.style.opacity = '0.5';
+                    }
+                }
+
+                rafId = requestAnimationFrame(updateCursor);
+            }
 
             if (!('ontouchstart' in window)) {
                 document.addEventListener('mousemove', (e) => {
-                    const posX = e.clientX;
-                    const posY = e.clientY;
+                    setCursorVisible(true);
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
 
-                    cursorDot.style.left = `${posX}px`;
-                    cursorDot.style.top = `${posY}px`;
-
-                    const animateOutline = () => {
-                        const currentX = parseFloat(cursorOutline.style.left) || posX;
-                        const currentY = parseFloat(cursorOutline.style.top) || posY;
-
-                        const dx = posX - currentX;
-                        const dy = posY - currentY;
-
-                        const newX = currentX + dx * 0.2;
-                        const newY = currentY + dy * 0.2;
-
-                        cursorOutline.style.left = `${newX}px`;
-                        cursorOutline.style.top = `${newY}px`;
-
-                        if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
-                            requestAnimationFrame(animateOutline);
-                        }
-                    };
-
-                    requestAnimationFrame(animateOutline);
+                    if (!rafId) {
+                        rafId = requestAnimationFrame(updateCursor);
+                    }
                 });
+
+                document.addEventListener('mousedown', () => {
+                    isPressed = true;
+                    cursorDot.classList.add('active');
+                    cursorOutline.classList.add('active');
+
+                    cursorDot.animate([
+                        { transform: 'translate(-50%, -50%) scale(0.9)', opacity: 1 },
+                        { transform: 'translate(-50%, -50%) scale(1.5)', opacity: 0.8 },
+                        { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 }
+                    ], { 
+                        duration: 600, 
+                        easing: 'cubic-bezier(0.19, 1, 0.22, 1)'
+                    });
+                });
+
+                document.addEventListener('mouseup', () => {
+                    isPressed = false;
+                    cursorDot.classList.remove('active');
+                    cursorOutline.classList.remove('active');
+                });
+
+                document.addEventListener('mouseleave', () => {
+                    setCursorVisible(false);
+                    if (rafId) {
+                        cancelAnimationFrame(rafId);
+                        rafId = null;
+                    }
+                });
+
+                document.addEventListener('mouseenter', () => {
+                    setCursorVisible(true);
+
+                    cursorDot.animate([
+                        { transform: 'translate(-50%, -50%) scale(0)', opacity: 0 },
+                        { transform: 'translate(-50%, -50%) scale(1.2)', opacity: 0.8 },
+                        { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 }
+                    ], { 
+                        duration: 500, 
+                        easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+                    });
+
+                    cursorOutline.animate([
+                        { transform: 'translate(-50%, -50%) scale(0)', opacity: 0 },
+                        { transform: 'translate(-50%, -50%) scale(1.1)', opacity: 0.3 },
+                        { transform: 'translate(-50%, -50%) scale(1)', opacity: 0.5 }
+                    ], { 
+                        duration: 600, 
+                        easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+                    });
+
+                    if (!rafId) {
+                        rafId = requestAnimationFrame(updateCursor);
+                    }
+                });
+
+                initMagneticElements();
             } else {
 
                 cursorDot.style.display = 'none';
                 cursorOutline.style.display = 'none';
             }
-
-            const interactiveElements = document.querySelectorAll('a, button, .nationi');
-
-            interactiveElements.forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    cursorDot.style.width = '12px';
-                    cursorDot.style.height = '12px';
-                    cursorOutline.style.width = '60px';
-                    cursorOutline.style.height = '60px';
-                    cursorOutline.style.opacity = '0.3';
-                });
-
-                el.addEventListener('mouseleave', () => {
-                    cursorDot.style.width = '8px';
-                    cursorDot.style.height = '8px';
-                    cursorOutline.style.width = '40px';
-                    cursorOutline.style.height = '40px';
-                    cursorOutline.style.opacity = '0.5';
-                });
-            });
 
             document.querySelectorAll('.icon').forEach(icon => {
                 icon.addEventListener('mousemove', e => {
