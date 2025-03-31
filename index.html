@@ -536,111 +536,166 @@
             transform: perspective(500px) rotateX(0) rotateY(0) translateZ(0) scale(0.95);
         }
 
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        @media (hover: none) {            
+            dialog {
+                padding-bottom: 1.5rem;
+            }
+        }
+
         dialog {
-            margin: auto;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            background: rgba(30, 30, 36, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0;
+            overflow: hidden;
             border-radius: 24px;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            width: 90%;
-            max-width: 450px;
-            padding: 2rem;
-            color: var(--text-primary);
-            opacity: 0;
-            pointer-events: none;
-            transition: transform 0.4s var(--transition-smooth), opacity 0.4s var(--transition-smooth);
-            z-index: 100;
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+            border: none;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            width: 92%;
+            max-width: 420px;
+            background: rgba(24, 24, 32, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
 
         dialog::backdrop {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
 
-        dialog.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-            pointer-events: auto;
+        .dialog-container {
+            padding: 0;
+            gap: 0;
         }
 
-        dialog.hide {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.9);
-        }
-
-        dialog p {
-            margin: 0 0 1.5rem 0;
-            font-size: var(--fs-base);
-            line-height: var(--line-height-normal);
-            color: var(--text-secondary);
-        }
-
-        .nationi {
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-weight: var(--fw-semibold);
-            cursor: pointer;
-            display: inline-block;
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            margin: 0 0.2rem;
+        .dialog-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 1.5rem;
             position: relative;
-            font-size: var(--fs-md);
-            transition: all 0.3s ease;
+            color: white;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .nationi::before {
+        .dialog-header .discord-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: white;
+            opacity: 0.9;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .dialog-title {
+            font-size: var(--fs-lg);
+            font-weight: var(--fw-bold);
+            font-family: var(--font-heading);
+            letter-spacing: -0.01em;
+            margin: 0;
+            color: white;
+            user-select: none;
+        }
+
+        .dialog-content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        #dialog-description {
+            margin: 0 0 1.5rem;
+            color: var(--text-secondary);
+            font-size: var(--fs-base);
+            line-height: 1.5;
+        }
+
+        .tag-container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 14px;
+            margin: 1rem 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .tag-container::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: rgba(108, 99, 255, 0.1);
-            border-radius: 4px;
-            z-index: -1;
+            border-radius: 14px;
+            padding: 1px;
+            background: linear-gradient(135deg, var(--primary-color), transparent, var(--secondary-color));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: source-out;
+            mask-composite: subtract;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .nationi {
+            font-size: var(--fs-lg);
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            background: rgba(108, 99, 255, 0.15);
+            font-family: var(--font-display);
+            cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
+            font-weight: var(--fw-medium);
+            letter-spacing: 0.02em;
+            box-shadow: 0 2px 10px rgba(108, 99, 255, 0.2);
         }
 
-        .nationi:hover::before {
-            background: rgba(108, 99, 255, 0.2);
+        .copy-hint {
+            position: absolute;
+            bottom: -1.2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.7rem;
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            user-select: none;
         }
 
-        .nationi.clicked {
-            animation: clickPulse 0.5s var(--transition-smooth);
+        .dialog-footer {
+            padding: 1rem 1.5rem 1.5rem;
+            display: flex;
+            justify-content: center;
         }
 
-        @keyframes clickPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-            100% { transform: scale(1); }
-        }
-
-        button.ok-btn {
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border: none;
-            padding: 0.8rem 2rem;
+        .ok-btn {
             font-size: var(--fs-base);
             font-weight: var(--fw-semibold);
-            border-radius: 12px;
-            margin-top: 1rem;
+            color: white;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 14px;
+            padding: 0.9rem 2.5rem;
             cursor: pointer;
-            transition: all 0.3s var(--transition-smooth);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            box-shadow: var(--button-shadow);
-            letter-spacing: var(--letter-spacing-wide);
-            font-family: var(--font-primary);
+            box-shadow: 0 5px 20px rgba(108, 99, 255, 0.3);
+            min-width: 60%;
+            letter-spacing: 0.03em;
         }
 
-        button.ok-btn::before {
+        .ok-btn::before {
             content: '';
             position: absolute;
             top: 0;
@@ -651,18 +706,85 @@
             transition: all 0.6s;
         }
 
-        button.ok-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
-        }
-
-        button.ok-btn:hover::before {
+        .ok-btn:hover::before {
             left: 100%;
         }
 
-        button.ok-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        /* Удаляем стили индикатора свайпа */
+        @media (prefers-color-scheme: light) {
+            dialog {
+                background: rgba(255, 255, 255, 0.95);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+            }
+            
+            .dialog-header {
+                border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            }
+            
+            #dialog-description {
+                color: rgba(0, 0, 0, 0.7);
+            }
+            
+            .tag-container {
+                background: rgba(0, 0, 0, 0.03);
+                border: 1px solid rgba(0, 0, 0, 0.05);
+            }
+            
+            .nationi {
+                background: rgba(108, 99, 255, 0.12);
+                box-shadow: 0 2px 8px rgba(108, 99, 255, 0.15);
+            }
+            
+            .copy-hint {
+                color: rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        @media (max-width: 480px) {
+            dialog {
+                width: 94%;
+                border-radius: 20px;
+            }
+
+            .dialog-header {
+                padding: 1.2rem;
+            }
+
+            .dialog-header .discord-icon {
+                font-size: 2rem;
+            }
+
+            .dialog-content {
+                padding: 1.2rem;
+            }
+
+            .dialog-footer {
+                padding: 0.8rem 1.2rem 1.2rem;
+            }
+
+            .nationi {
+                font-size: var(--fs-md);
+                padding: 0.5rem 0.8rem;
+            }
+
+            .tag-container {
+                padding: 0.8rem;
+                margin: 0.8rem 0 1.2rem;
+            }
+
+            .ok-btn {
+                min-width: 75%;
+            }
+        }
+
+        .nationi.clicked {
+            animation: mobilePulse 0.4s ease;
+        }
+
+        @keyframes mobilePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
 
         canvas {
@@ -707,308 +829,31 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        @media (max-width: 768px) {
-            h1 {
-                font-size: var(--fs-4xl);
-                letter-spacing: -0.02em;
-            }
-
-            .header h1::after {
-                width: 50%;
-                height: 4px;
-                margin: 0.4rem auto 0.8rem;
-            }
-
-            h2 {
-                font-size: var(--fs-md);
-            }
-
-            .card {
-                padding: 2.5rem 1.5rem;
-            }
-
-            .icon {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
-            }
-
-            dialog {
-                padding: 1.5rem;
-                width: 85%;
-            }
-
-            button.ok-btn {
-                padding: 0.7rem 1.5rem;
-            }
-
-            .cursor-dot, .cursor-outline {
-                display: none;
-            }
+        dialog {
+            margin: auto;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.4s var(--transition-smooth), opacity 0.4s var(--transition-smooth);
+            z-index: 100;
         }
 
-        @media (max-width: 480px) {
-            h1 {
-                font-size: var(--fs-3xl);
-                animation-duration: 3s, 2s; 
-            }
-
-            .header h1::after {
-                width: 60%;
-                margin: 0.3rem auto 0.6rem;
-            }
-
-            h2 {
-                font-size: var(--fs-base);
-                margin-top: 0.5rem;
-            }
-
-            .card {
-                padding: 2rem 1.2rem;
-            }
-
-            .icon {
-                width: 45px;
-                height: 45px;
-                font-size: 1.1rem;
-            }
-
-            .social-icons {
-                gap: 0.8rem;
-            }
-
-            dialog p {
-                font-size: var(--fs-sm);
-            }
-
-            .nationi {
-                font-size: var(--fs-base);
-            }
+        dialog.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
         }
 
-        @media (max-width: 360px) {
-            h1 {
-                font-size: calc(var(--fs-2xl) * 1.2);
-            }
-
-            .header h1::after {
-                width: 70%;
-                height: 3px;
-                margin: 0.2rem auto 0.5rem;
-            }
-
-            .card {
-                padding: 1.5rem 1rem;
-            }
-
-            .icon {
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
-            }
+        dialog.hide {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.9);
         }
-
-        @media (max-height: 500px) and (orientation: landscape) {
-            .container {
-                padding: 1rem;
-            }
-
-            .card {
-                padding: 1.5rem;
-            }
-
-            h1 {
-                font-size: var(--fs-2xl);
-                margin-bottom: 0.2rem;
-            }
-
-            .header {
-                margin-bottom: 1.5rem;
-            }
-
-            .social-icons {
-                margin-top: 1rem;
-            }
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --card-bg: rgba(30, 30, 36, 0.5);
-            }
-        }
-
-        @media (prefers-color-scheme: light) {
-            :root {
-                --dark-bg: #f5f5f7;
-                --card-bg: rgba(255, 255, 255, 0.5);
-                --text-primary: #1d1d1f;
-                --text-secondary: rgba(0, 0, 0, 0.8);
-            }
-
-            body {
-                background: linear-gradient(125deg, var(--dark-bg), #e4e4e7);
-            }
-
-            dialog {
-                background: rgba(255, 255, 255, 0.8);
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-
-            h1, h2, .badge, .card, .icon, .nationi, button.ok-btn, dialog, .cursor-outline {
-                transition: none !important;
-                animation: none !important;
-                transform: none !important;
-            }
-
-            .text-glitch::after {
-                display: none;
-            }
-        }
-
-        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-            .icon::before {
-                padding: 1.5px; 
-            }
-        }
-
-        @media (max-width: 320px) {
-            h1 {
-                font-size: var(--fs-xl);
-                letter-spacing: 0;
-            }
-
-            .header h1::after {
-                width: 80%;
-                height: 2px;
-                margin: 0.2rem auto 0.4rem;
-            }
-
-            h2 {
-                font-size: var(--fs-xs);
-                padding: 0.2rem 0.5rem;
-            }
-
-            .card {
-                padding: 1.2rem 0.8rem;
-            }
-
-            .social-icons {
-                gap: 0.6rem;
-                margin-top: 1rem;
-            }
-
-            .icon {
-                width: 35px;
-                height: 35px;
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 767px) and (min-aspect-ratio: 2/1) {
-            .container {
-                padding: 0.8rem;
-            }
-
-            .card {
-                padding: 1.2rem;
-            }
-
-            .header {
-                margin-bottom: 1rem;
-            }
-
-            h1 {
-                margin-bottom: 0.2rem;
-            }
-
-            .badge {
-                font-size: 0.7em;
-            }
-        }
-
-        @media (hover: none) {
-
-            .icon:hover, .nationi:hover::before, h2:hover::before, button.ok-btn:hover {
-
-                transform: none;
-            }
-
-            .icon {
-
-                min-width: 48px;
-                min-height: 48px;
-            }
-        }
-
-        .card.touch-active {
-            transform: scale(0.98) translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .icon:active {
-            opacity: 0.8;
-        }
-
-        @media (hover: none) {
-            .nationi:active::before {
-                background: rgba(108, 99, 255, 0.3);
-                transition: background 0.1s ease;
-            }
-
-            button.ok-btn:active {
-                transform: translateY(1px);
-                opacity: 0.9;
-                transition: transform 0.1s ease, opacity 0.1s ease;
-            }
-
-            .icon:active i {
-                color: white;
-                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-                transform: scale(1.1);
-                transition: all 0.1s ease;
-            }
-
-            .icon:active::before {
-                opacity: 1;
-                transition: opacity 0.1s ease;
-            }
-        }
-
+        
         button, a, .icon, .nationi {
             -webkit-tap-highlight-color: transparent; 
-        }
-
-        @media (max-width: 480px) {
-            .spinner::before, 
-            .spinner::after,
-            .feedback,
-            .card,
-            .nationi,
-            .icon::before {
-                will-change: auto; 
-            }
-
-            h1 {
-                animation-duration: 6s;
-            }
-
-            .icon:hover::before {
-                animation-duration: 3s;
-            }
-
-            .text-glitch::after {
-                animation-duration: 6s;
-            }
-        }
-
-        .icon svg {
-            will-change: transform;
-            transform: translateZ(0);
-            backface-visibility: hidden;
-            -webkit-font-smoothing: subpixel-antialiased;
         }
     </style>
 </head>
@@ -1069,15 +914,22 @@
         </div>
     </div>
 
-    <dialog>
-        <p>
-            Click to Copy: 
-            <span class="nationi" id="discord-tag" tabindex="0" role="button" aria-label="Скопировать тег Discord">@nationi.</span> 
-            <span>⇾ с точкой на конце.</span>
-        </p>
-        <p style="text-align: center">
-            <button id="close" class="ok-btn">Океу</button>
-        </p>
+    <dialog aria-labelledby="dialog-title" aria-describedby="dialog-description">
+        <div class="dialog-container">
+            <div class="dialog-header">
+                <i class="fab fa-discord discord-icon" aria-hidden="true"></i>
+                <h3 id="dialog-title" class="dialog-title">Discord</h3>
+            </div>
+            <div class="dialog-content">                
+                <div class="tag-container">
+                    <span class="nationi" id="discord-tag" tabindex="0" role="button" aria-label="Скопировать тег Discord">@nationi.</span>
+                    <span class="copy-hint">Нажмите для копирования</span>
+                </div>
+            </div>
+            <div class="dialog-footer">
+                <button id="close" class="ok-btn" aria-label="Закрыть диалог">Готово</button>
+            </div>
+        </div>
     </dialog>
 
     <canvas id="particles-canvas"></canvas>
@@ -1349,12 +1201,19 @@
                 if (show) {
                     dialog.showModal();
                     requestAnimationFrame(() => dialog.classList.add('show'));
+                    document.body.style.overflow = 'hidden';
+                    dialog.setAttribute('aria-hidden', 'false');
+                    closeBtn.focus();
                 } else {
                     dialog.classList.remove('show');
                     dialog.classList.add('hide');
+                    document.body.style.overflow = '';
+                    dialog.setAttribute('aria-hidden', 'true');
+                    
                     dialog.addEventListener('transitionend', () => {
                         dialog.classList.remove('hide');
                         dialog.close();
+                        openBtn.focus();
                     }, { once: true });
                 }
             };
@@ -1377,24 +1236,6 @@
                     }
                 }, { passive: true });
 
-                let touchStartY = 0;
-                dialog.addEventListener('touchstart', (e) => {
-                    if (e.touches.length > 0) {
-                        touchStartY = e.touches[0].clientY;
-                    }
-                }, { passive: true });
-
-                dialog.addEventListener('touchmove', (e) => {
-                    if (e.touches.length > 0) {
-                        const touchY = e.touches[0].clientY;
-                        const diff = touchY - touchStartY;
-
-                        if (diff > 50) {
-                            toggleModal(false);
-                        }
-                    }
-                }, { passive: true });
-
                 card.addEventListener('touchstart', () => {
                     card.classList.add('touch-active');
                 }, { passive: true });
@@ -1402,12 +1243,28 @@
                 card.addEventListener('touchend', () => {
                     card.classList.remove('touch-active');
                 }, { passive: true });
+                
+                discordTag.addEventListener('touchstart', () => {
+                    if (navigator.vibrate) {
+                        navigator.vibrate(30);
+                    }
+                }, { passive: true });
             }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && dialog.open) {
+                    toggleModal(false);
+                }
+            });
 
             const copyToClipboard = async (text) => {
                 const nationiElement = document.querySelector('.nationi');
 
                 nationiElement.classList.add('clicked');
+                
+                if (navigator.vibrate) {
+                    navigator.vibrate([30, 20, 50]);
+                }
 
                 try {
                     if (navigator.clipboard?.writeText) {
@@ -1434,6 +1291,8 @@
                 const feedback = document.createElement('div');
                 feedback.className = `feedback ${success ? 'success' : 'error'}`;
                 feedback.textContent = message;
+                feedback.setAttribute('role', 'status');
+                feedback.setAttribute('aria-live', 'polite');
                 document.body.appendChild(feedback);
 
                 requestAnimationFrame(() => {
