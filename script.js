@@ -51,33 +51,39 @@ window.addEventListener('load', () => {
         const smallerDimension = Math.min(innerWidth, innerHeight);
 
         const isLowEndDevice = () => {
-
             const isLowRAM = navigator.deviceMemory && navigator.deviceMemory <= 4; 
             const isLowCores = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4; 
-
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
             return isLowRAM || isLowCores || isMobile;
         };
 
         if (innerWidth <= 768) {
-            config.amount = 100;
-            config.connectionDistance = 120;
+            config.amount = 80;
+            config.connectionDistance = 100;
         }
 
         if (innerWidth <= 480) {
-            config.amount = 60;
-            config.connectionDistance = 80;
+            config.amount = 50;
+            config.connectionDistance = 70;
+            config.size.max = 4;
+            config.speed.max = 0.6;
+            config.speed.min = 0.15;
         }
 
         if (smallerDimension <= 350) {
-            config.amount = 40;
-            config.connectionDistance = 60;
+            config.amount = 30;
+            config.connectionDistance = 50;
         }
 
         if (isLowEndDevice()) {
-            config.amount = Math.max(20, Math.floor(config.amount * 0.6));
-            config.connectionOpacity *= 0.7;
+            config.amount = Math.max(20, Math.floor(config.amount * 0.5));
+            config.connectionOpacity *= 0.6;
+            config.connectionDistance = Math.floor(config.connectionDistance * 0.8);
+
+            if ('ontouchstart' in window) {
+                config.speed.max *= 0.7;
+                config.speed.min *= 0.7;
+            }
 
             if (smallerDimension <= 400) {
                 config.amount = Math.max(15, Math.floor(config.amount * 0.7));
@@ -258,17 +264,31 @@ window.addEventListener('load', () => {
         const deltaTime = Math.min(timestamp - lastTimestamp, 100) / 1000; 
         lastTimestamp = timestamp;
 
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const skipFrame = isMobile && Math.random() > 0.7;
+        
+        if (skipFrame) {
+            animationFrameId = requestAnimationFrame(animate);
+            return;
+        }
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         particles.forEach(particle => {
-
             particle.x += particle.vx * deltaTime * 60; 
             particle.y += particle.vy * deltaTime * 60;
 
-            particle.pulseFactor += particle.pulseSpeed * deltaTime * 60;
-            const pulse = Math.sin(particle.pulseFactor) * 0.5 + 0.5;
-            particle.currentSize = particle.size * (0.8 + pulse * 0.4);
-            particle.currentOpacity = particle.opacity * (0.7 + pulse * 0.3);
+            if (isMobile) {
+                particle.pulseFactor += particle.pulseSpeed * deltaTime * 30;
+                const pulse = Math.sin(particle.pulseFactor) * 0.3 + 0.5;
+                particle.currentSize = particle.size * (0.9 + pulse * 0.2);
+                particle.currentOpacity = particle.opacity * (0.8 + pulse * 0.2);
+            } else {
+                particle.pulseFactor += particle.pulseSpeed * deltaTime * 60;
+                const pulse = Math.sin(particle.pulseFactor) * 0.5 + 0.5;
+                particle.currentSize = particle.size * (0.8 + pulse * 0.4);
+                particle.currentOpacity = particle.opacity * (0.7 + pulse * 0.3);
+            }
 
             if (particle.x < 0 || particle.x > canvas.width || 
                 particle.y < 0 || particle.y > canvas.height) {
@@ -282,14 +302,21 @@ window.addEventListener('load', () => {
 
             particle.draw();
 
-            particle.drawConnections(particles);
+            if (
+                particle.x >= -config.connectionDistance && 
+                particle.x <= canvas.width + config.connectionDistance && 
+                particle.y >= -config.connectionDistance && 
+                particle.y <= canvas.height + config.connectionDistance
+            ) {
+                particle.drawConnections(particles);
+            }
         });
 
         animationFrameId = requestAnimationFrame(animate);
     }
 
     let lastMouseMoveTime = 0;
-    const mouseMoveThrottle = 1000 / 60; 
+    const mouseMoveThrottle = 'ontouchstart' in window ? 1000 / 30 : 1000 / 60;
 
     const handleMouseMove = (e) => {
         const currentTime = Date.now();
@@ -301,7 +328,6 @@ window.addEventListener('load', () => {
         const mouseY = e.clientY;
 
         particles.forEach(particle => {
-
             const dx = mouseX - particle.x;
             const dy = mouseY - particle.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
@@ -319,25 +345,34 @@ window.addEventListener('load', () => {
     }
 
     const handleClick = (e) => {
-
         const x = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
         const y = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
 
         if (!x && !y) return; 
 
-        const particleCount = 'ontouchstart' in window ? 5 : 10;
+        const isMobile = 'ontouchstart' in window;
+        const particleCount = isMobile ? 3 : 8;
+        const maxExtraParticles = isMobile ? 20 : 30;
 
         for (let i = 0; i < particleCount; i++) {
             const particle = new Particle();
             particle.x = x;
             particle.y = y;
-            particle.vx = (Math.random() - 0.5) * 5;
-            particle.vy = (Math.random() - 0.5) * 5;
-            particle.size = Math.random() * 4 + 2;
+            
+            if (isMobile) {
+                particle.vx = (Math.random() - 0.5) * 3.5;
+                particle.vy = (Math.random() - 0.5) * 3.5;
+                particle.size = Math.random() * 3 + 1.5;
+            } else {
+                particle.vx = (Math.random() - 0.5) * 5;
+                particle.vy = (Math.random() - 0.5) * 5;
+                particle.size = Math.random() * 4 + 2;
+            }
+            
             particle.opacity = 1;
             particles.push(particle);
 
-            if (particles.length > config.amount + 30) {
+            if (particles.length > config.amount + maxExtraParticles) {
                 particles.shift();
             }
         }
