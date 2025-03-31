@@ -795,6 +795,136 @@
             .ok-btn {
                 min-width: 75%;
             }
+            
+            h1 {
+                font-size: calc(var(--fs-3xl) * 0.95);
+                margin-bottom: 0.7rem;
+            }
+            
+            h2 {
+                font-size: var(--fs-base);
+                padding: 0.3rem 0.8rem;
+                gap: 0.3rem;
+                width: auto;
+                max-width: 95%;
+                margin: 0 auto;
+                display: flex;
+                flex-wrap: nowrap;
+                overflow: visible;
+                background: rgba(108, 99, 255, 0.1);
+                border-radius: 12px;
+                letter-spacing: var(--letter-spacing-wide);
+                box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
+                border: 1px solid rgba(255, 255, 255, 0.05);
+            }
+            
+            h2 .badge {
+                font-size: 0.8em;
+                padding: 0.15em 0.5em;
+                position: relative;
+                transform: rotate(-2deg) translateY(-1px);
+                margin-left: 0.3rem;
+                background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+                border-radius: 6px;
+                box-shadow: 0 2px 6px rgba(108, 99, 255, 0.4);
+                animation: float 4s ease-in-out infinite;
+                transition: all 0.3s ease;
+            }
+            
+            @keyframes float {
+                0%, 100% { transform: rotate(-2deg) translateY(-1px); }
+                50% { transform: rotate(1deg) translateY(-3px); }
+            }
+            
+            .container {
+                padding: 1.5rem 1rem;
+                max-width: 100%;
+                width: 92%;
+            }
+            
+            .card {
+                padding: 2rem 1.2rem 2.5rem;
+                border-radius: 20px;
+                width: 100%;
+                box-sizing: border-box;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .card::before {
+                content: '';
+                position: absolute;
+                width: 150px;
+                height: 150px;
+                background: radial-gradient(circle, rgba(108, 99, 255, 0.15), transparent 70%);
+                top: -75px;
+                right: -75px;
+                border-radius: 50%;
+                z-index: -1;
+            }
+            
+            .card::after {
+                content: '';
+                position: absolute;
+                width: 120px;
+                height: 120px;
+                background: radial-gradient(circle, rgba(244, 104, 183, 0.15), transparent 70%);
+                bottom: -50px;
+                left: -60px;
+                border-radius: 50%;
+                z-index: -1;
+            }
+            
+            .header {
+                margin-bottom: 1.8rem;
+            }
+            
+            .social-icons {
+                gap: 0.9rem;
+                justify-content: center;
+                margin-top: 1.8rem;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(2, auto);
+                max-width: 280px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .icon {
+                width: 60px;
+                height: 60px;
+                border-radius: 16px;
+                font-size: 1.5rem;
+                margin: 0.25rem;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            h2 {
+                font-size: var(--fs-sm);
+                padding: 0.25rem 0.5rem;
+            }
+            
+            h1 {
+                font-size: calc(var(--fs-3xl) * 0.9);
+            }
+            
+            .social-icons {
+                gap: 0.6rem;
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .icon {
+                width: 52px;
+                height: 52px;
+                font-size: 1.2rem;
+                margin: 0.15rem;
+            }
+            
+            .container {
+                width: 96%;
+            }
         }
 
         .nationi.clicked {
@@ -918,7 +1048,7 @@
                 <h3 id="dialog-title" class="dialog-title">Discord</h3>
             </div>
             <div class="dialog-content">                
-                <p id="dialog-description" class="visually-hidden">Нажмите для копирования Discord тега</p>
+                <p id="dialog-description" class="visually-hidden">Скопируйте тег Discord пользователя Nationi нажатием на него</p>
                 <div class="tag-container">
                     <span class="nationi" id="discord-tag" tabindex="0" role="button" aria-label="Скопировать тег Discord">@nationi.</span>
                     <span class="copy-hint">Нажмите для копирования</span>
