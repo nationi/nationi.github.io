@@ -25,23 +25,24 @@ window.addEventListener('load', () => {
     }
 
     const PARTICLE_CONFIG = {
-        amount: 150,            
+        amount: 160,            
         size: {
             min: 1,
-            max: 5
+            max: 6
         },
         speed: {
             min: 0.2,
-            max: 0.8
+            max: 0.9
         },
         opacity: {
             min: 0.1,
-            max: 0.7
+            max: 0.8
         },
-        colors: ['#6C63FF', '#F468B7', '#40E0D0', '#FFFFFF'],
-        connectionDistance: 150,
-        connectionOpacity: 0.15,
-        responsive: true        
+        colors: ['#8B0000', '#C41E3A', '#462749', '#B18A42', '#591C21'],
+        connectionDistance: 160,
+        connectionOpacity: 0.18,
+        responsive: true,
+        bloom: true
     };
 
     const adjustConfigForScreenSize = () => {
@@ -58,35 +59,37 @@ window.addEventListener('load', () => {
         };
 
         if (innerWidth <= 768) {
-            config.amount = 80;
-            config.connectionDistance = 100;
+            config.amount = 90;
+            config.connectionDistance = 120;
         }
 
         if (innerWidth <= 480) {
-            config.amount = 50;
-            config.connectionDistance = 70;
-            config.size.max = 4;
-            config.speed.max = 0.6;
-            config.speed.min = 0.15;
+            config.amount = 60;
+            config.connectionDistance = 80;
+            config.size.max = 5;
+            config.speed.max = 0.7;
+            config.speed.min = 0.18;
+            config.bloom = false;
         }
 
         if (smallerDimension <= 350) {
-            config.amount = 30;
-            config.connectionDistance = 50;
+            config.amount = 40;
+            config.connectionDistance = 60;
         }
 
         if (isLowEndDevice()) {
-            config.amount = Math.max(20, Math.floor(config.amount * 0.5));
-            config.connectionOpacity *= 0.6;
+            config.amount = Math.max(30, Math.floor(config.amount * 0.6));
+            config.connectionOpacity *= 0.7;
             config.connectionDistance = Math.floor(config.connectionDistance * 0.8);
+            config.bloom = false;
 
             if ('ontouchstart' in window) {
-                config.speed.max *= 0.7;
-                config.speed.min *= 0.7;
+                config.speed.max *= 0.8;
+                config.speed.min *= 0.8;
             }
 
             if (smallerDimension <= 400) {
-                config.amount = Math.max(15, Math.floor(config.amount * 0.7));
+                config.amount = Math.max(20, Math.floor(config.amount * 0.7));
                 config.connectionDistance = Math.floor(config.connectionDistance * 0.7);
             }
         }
